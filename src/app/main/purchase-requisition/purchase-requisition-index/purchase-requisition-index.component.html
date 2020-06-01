@@ -1,0 +1,450 @@
+<!-- BEGIN PAGE BAR -->
+<div class="page-bar">
+
+    <div class="pull-left">
+        <h1 class="page-title">
+            <i></i> Manage Purchase Requisitions
+            <small>View All Purchase Requisitions</small>
+        </h1>
+    </div>
+    <div class="pull-right">
+        <h4>
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a routerLink="/main/dashboard/index">Home</a>
+                </li>
+                <li>
+                    <span>Manage Purchase Requisitions</span>
+                </li>
+            </ul>
+        </h4>
+    </div>
+
+</div>
+<!-- END PAGE BAR -->
+<!-- <pre>{{purchaserequisitions|json}}</pre> -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-xs-3  pull-left">
+                            <div class="search">
+                                <span class="fa fa-search"></span>
+                                <input type="text" class="form-control" name="keyword" (keyup.enter)="loadData()" [(ngModel)]="keyword" placeholder="Search here ...">
+
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="col-md-6 ">
+                    <div class="pull-right">
+                        <span *ngIf="_authenService.checkAccess('createPR')">
+                  <div class="btn-group ">
+                    <a type="button" routerLink="/main/purchase-requisition/add" id="sample_editable_1_new" class="btn sbold green-jungle">
+                      Add New
+                      <i class="fa fa-plus"></i>
+                    </a>
+                  </div>
+                </span>
+                        <span *ngIf="_authenService.checkAccess('showDeletedFilesPR')">
+                            <div class="btn-group ">
+                                <a type="button" routerLink="/main/purchase-requisition/restore" id="sample_editable_1_new" class="btn sbold red">
+        Show History
+        <i class="fa fa-refresh"></i>
+      </a>
+                            </div>
+                        </span>
+                        <div class="btn-group ">
+                            <button type="button" class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown">Tools
+                    <i class="fa fa-angle-down"></i>
+                  </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="javascript:;">
+                                        <i class="fa fa-print"></i> Print </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">
+                                        <i class="fa fa-file-pdf-o"></i> Save as PDF </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">
+                                        <i class="fa fa-file-excel-o"></i> Export to Excel </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="portlet-body">
+                    <div *ngIf="_authenService.checkAccess('inventory-tab')">
+                        <tabset [justified]="true" type="pills">
+                            <tab heading="WAITING" (select)="clickWaiting()">
+                                <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:15%"> Request Code </th>
+                                            <th style="width:10%"> Date Created </th>
+                                            <th> Request Name </th>
+                                            <th style="width:10%"> Requester </th>
+                                            <th style="width:13%" *ngIf="roles == 'Inventory Staff'"> Action </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr class="odd gradeX" *ngFor="let purchaserequisition of purchaserequisitions; let i = index">
+
+                                            <td>
+                                                <a [routerLink]="['../detail',purchaserequisition.ID]"> {{purchaserequisition.Code}} </a>
+                                            </td>
+                                            <td>
+                                                {{purchaserequisition.DateCreated | date: 'dd/MM/yyyy'}}
+                                            </td>
+                                            <td style="white-space: nowrap; max-width: 1px; overflow: hidden; text-overflow: ellipsis">
+                                                {{purchaserequisition.Name}}
+                                            </td>
+                                            <td>
+                                                {{purchaserequisition.Requester}}
+                                            </td>
+
+
+                                            <span *ngIf="roles == 'Inventory Staff'">
+                            <td>
+                              <div class="btn-group" role="menu">
+    
+                                <a [routerLink]="['../edit', purchaserequisition.ID]" matTooltip="Edit" matTooltipPosition='above'>
+                                  <i class="icon-pencil btn blue btn-outline"></i>
+                                </a>
+                                <a (click)="deleteWaiting(purchaserequisition.ID, purchaserequisition.Code)">
+                                  <i class="icon-trash btn red btn-outline" matTooltip="Delete" matTooltipPosition='above' style="margin-left:10px"></i>
+                                </a>
+    
+                              </div>
+                            </td>
+                          </span>
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <pagination [boundaryLinks]="true" [totalItems]="totalRowsWaiting" [itemsPerPage]="pageSizeWaiting" (pageChanged)="pageChangedWaiting($event)" [(ngModel)]="pageIndexWating" class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+                                            lastText="&raquo;"></pagination>
+                                    </div>
+
+                                </div>
+                            </tab>
+
+
+                            <tab heading="APPROVED" (select)="clickApprove()">
+                                <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                                    <thead>
+                                        <tr>
+
+                                            <th style="width:15%"> Request Code </th>
+                                            <th style="width:10%"> Date Created </th>
+                                            <th> Request Name </th>
+                                            <th style="width:12%"> Approver </th>
+                                            <th style="width:12%"> Requester </th>
+
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr class="odd gradeX" *ngFor="let purchaserequisition of purchaserequisitions; let i = index">
+
+                                            <td>
+                                                <a [routerLink]="['../detail',purchaserequisition.ID]"> {{purchaserequisition.Code}} </a>
+                                            </td>
+                                            <td>
+                                                {{purchaserequisition.DateCreated | date: 'dd/MM/yyyy'}}
+                                            </td>
+                                            <td style="white-space: nowrap; max-width: 2px; overflow: hidden; text-overflow: ellipsis">
+                                                {{purchaserequisition.Name}}
+                                            </td>
+                                            <td>
+                                                {{purchaserequisition.Approver}}
+                                            </td>
+                                            <td>
+                                                {{purchaserequisition.Requester}}
+                                            </td>
+
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <pagination [boundaryLinks]="true" [totalItems]="totalRowsApprove" [itemsPerPage]="pageSizeApprove" (pageChanged)="pageChangedApprove($event)" [(ngModel)]="pageIndexApprove" class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+                                            lastText="&raquo;"></pagination>
+                                    </div>
+
+                                </div>
+                            </tab>
+
+                            <tab heading="DENIED" (select)="clickDenied()">
+                                <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                                    <thead>
+                                        <tr>
+
+                                            <th style="width:15%"> Request Code </th>
+                                            <th style="width:10%"> Date Created </th>
+                                            <th> Request Name </th>
+                                            <th style="width:10%"> Requester </th>
+                                            <th style="width:20%"> Approver </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr class="odd gradeX" *ngFor="let purchaserequisition of purchaserequisitions; let i = index">
+
+                                            <td>
+                                                <a [routerLink]="['../detail',purchaserequisition.ID]"> {{purchaserequisition.Code}} </a>
+                                            </td>
+                                            <td>
+                                                {{purchaserequisition.DateCreated | date: 'dd/MM/yyyy'}}
+                                            </td>
+                                            <td style="white-space: nowrap; max-width: 2px; overflow: hidden; text-overflow: ellipsis">
+                                                {{purchaserequisition.Name}}
+                                            </td>
+                                            <td>
+                                                {{purchaserequisition.Requester}}
+                                            </td>
+                                            <td>
+                                                {{purchaserequisition.Approver}}
+                                            </td>
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <pagination [boundaryLinks]="true" [totalItems]="totalRowsDeny" [itemsPerPage]="pageSizeDeny" (pageChanged)="pageChangedDeny($event)" [(ngModel)]="pageIndexDeny" class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+                                    </div>
+
+                                </div>
+
+                            </tab>
+
+
+                            <tab heading="DRAFT" (select)="clickDraft()" *ngIf="roles == 'Inventory Staff'">
+                                <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                                    <thead>
+                                        <tr>
+
+                                            <th style="width:15%"> Request Code </th>
+                                            <th style="width:10%"> Date Created </th>
+                                            <th> Request Name </th>
+                                            <th style="width:10%"> Requester </th>
+
+
+                                            <th style="width:13%"> Action </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr class="odd gradeX" *ngFor="let purchaserequisition of purchaserequisitions; let i = index">
+
+                                            <td>
+                                                <a [routerLink]="['../detail',purchaserequisition.ID]"> {{purchaserequisition.Code}} </a>
+                                            </td>
+                                            <td>
+                                                {{purchaserequisition.DateCreated | date: 'dd/MM/yyyy'}}
+                                            </td>
+                                            <td style="white-space: nowrap; max-width: 2px; overflow: hidden; text-overflow: ellipsis">
+                                                {{purchaserequisition.Name}}
+                                            </td>
+                                            <td>
+                                                {{purchaserequisition.Requester}}
+                                            </td>
+
+
+
+                                            <td>
+                                                <div class="btn-group" role="menu">
+                                                    <span *ngIf="purchaserequisition.UserRequestID == user.UserId">
+                                <a [routerLink]="['../edit', purchaserequisition.ID]" matTooltip="Edit" matTooltipPosition='above'>
+                                  <i class="icon-pencil btn blue btn-outline"></i>
+                                </a>
+                                <a (click)="deleteDraft(purchaserequisition.ID, purchaserequisition.Code)">
+                                  <i class="icon-trash btn red btn-outline" matTooltip="Delete" matTooltipPosition='above' style="margin-left:10px"></i>
+                                </a>
+                              </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <pagination [boundaryLinks]="true" [totalItems]="totalRowsDraft" [itemsPerPage]="pageSizeDraft" (pageChanged)="pageChangedDraft($event)" [(ngModel)]="pageIndexDraft" class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+                                            lastText="&raquo;"></pagination>
+                                    </div>
+
+                                </div>
+
+                            </tab>
+
+
+                            <!-- <tab heading="DELETED" (select)="clickDeleted()" *ngIf="roles == 'Inventory Staff'">
+                                    <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                                        <thead>
+                                            <tr>
+    
+                                                <th style="width:15%"> Request Code </th>
+                                                <th style="width:10%"> Date Created </th>
+                                                <th> Request Name </th>
+                                                <th style="width:10%"> Requester </th>
+    
+                                                <th style="width:10%"> Action </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+    
+                                            <tr class="odd gradeX" *ngFor="let purchaserequisition of purchaserequisitions; let i = index">
+    
+                                                <td>
+                                                    <a [routerLink]="['../detail',purchaserequisition.ID]"> {{purchaserequisition.Code}} </a>
+                                                </td>
+                                                <td>
+                                                    {{purchaserequisition.DateCreated | date: 'dd/MM/yyyy'}}
+                                                </td>
+                                                <td style="white-space: nowrap; max-width: 2px; overflow: hidden; text-overflow: ellipsis">
+                                                    {{purchaserequisition.Name}}
+                                                </td>
+                                                <td>
+                                                    {{purchaserequisition.Requester}}
+                                                </td>
+    
+    
+    
+                                                <td>
+                                                    <div class="btn-group" role="menu">
+    
+                                                        <a (click)="restorePurchaseRequisition(purchaserequisition.ID, purchaserequisition.Code)">
+                                                            <i class="fa fa-repeat btn green-jungle btn-outline" matTooltip="Restore" matTooltipPosition='above'></i>
+                                                        </a>
+    
+    
+                                                        <span *ngIf="purchaserequisition.IsPermanentlyDelete == true ">
+                                <a (click)="deletePermanent(purchaserequisition.ID, purchaserequisition.Code )">
+                                  <i class="icon-close btn grey-gallery btn-outline" matTooltip="Permanent Delete" matTooltipPosition='above'></i>
+    
+                                </a>
+                              </span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+    
+    
+                                        </tbody>
+                                    </table>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <pagination [boundaryLinks]="true" [totalItems]="totalRowsDelete" [itemsPerPage]="pageSizeDelete" (pageChanged)="pageChangedDelete($event)" [(ngModel)]="pageIndexDelete" class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+                                                lastText="&raquo;"></pagination>
+                                        </div>
+                                    </div>
+                                </tab> -->
+
+                        </tabset>
+                    </div>
+                    <!-- Only Procurement Approved Tab -->
+                    <div *ngIf="_authenService.checkAccess('procurement-approved')">
+
+                        <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                            <thead>
+                                <tr>
+
+                                    <th style="width:15%"> Request Code </th>
+                                    <th style="width:10%"> Date Created </th>
+                                    <th> Request Name </th>
+                                    <th style="width:12%"> Approver </th>
+                                    <th style="width:12%"> Requester </th>
+
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr class="odd gradeX" *ngFor="let purchaserequisition of purchaserequisitions; let i = index">
+
+                                    <td>
+                                        <a [routerLink]="['../detail',purchaserequisition.ID]"> {{purchaserequisition.Code}} </a>
+                                    </td>
+                                    <td>
+                                        {{purchaserequisition.DateCreated | date: 'dd/MM/yyyy'}}
+                                    </td>
+                                    <td style="white-space: nowrap; max-width: 2px; overflow: hidden; text-overflow: ellipsis">
+                                        {{purchaserequisition.Name}}
+                                    </td>
+                                    <td>
+                                        {{purchaserequisition.Approver}}
+                                    </td>
+                                    <td>
+                                        {{purchaserequisition.Requester}}
+                                    </td>
+
+                                </tr>
+
+
+                            </tbody>
+                        </table>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <pagination [boundaryLinks]="true" [totalItems]="totalRowsApprove" [itemsPerPage]="pageSizeApprove" (pageChanged)="pageChangedApprove($event)" [(ngModel)]="pageIndexApprove" class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+                                    lastText="&raquo;"></pagination>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- End Procurement Approved Tab -->
+                </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+</div>
+
+<!-- MODAL DELETE
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog modal-sm" *ngIf="deletedItem">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Do you want to delete this Purchase Requisition?</h4>
+    
+    
+                </div>
+                <div class="modal-body">
+                    <p>Reason For Deletion</p>
+                    <textarea name="" id="" cols="30" rows="5" [(ngModel)]="deletedItem.ReasonForDeny"></textarea>
+    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" (click)="deletePurchaseRequisition()">Confirm</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="close-modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div> -->

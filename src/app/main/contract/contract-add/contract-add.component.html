@@ -1,0 +1,82 @@
+<div class="page-bar">
+
+    <div class="pull-left">
+        <h1 class="page-title">
+            <i></i> Manage Contracts
+            <small>Add Contract</small>
+        </h1>
+    </div>
+    <div class="pull-right">
+        <h4>
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a routerLink="/main/dashboard/index">Home</a>
+                </li>
+                <li>
+                    <a routerLink="/main/purchase-order/index">Manage Contracts</a>
+                </li>
+                <li>
+                    <span>Add Contract</span>
+                </li>
+            </ul>
+        </h4>
+    </div>
+
+</div>
+<pre>{{this.entity.Description|json}}</pre>
+<!-- END PAGE BAR -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered" id="form_wizard_1">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class=" fa fa-user-plus font-red"></i>
+                    <span class="caption-subject font-red sbold uppercase">Add Contract:
+                                <span class="font-purple-intense"> </span>
+                    </span>
+                </div>
+
+            </div>
+            <div class="portlet-body form1">
+                <!-- BEGIN FORM-->
+                <form id="form_sample_2" #addContractForm="ngForm" (ngSubmit)="saveChange(addContractForm)" *ngIf="entity" novalidate>
+                    <div class="form-wizard">
+                        <div class="form-body">
+
+                            <div class="tab-content">
+                                <div class="alert alert-danger display-hide">
+                                    <button class="close" data-close="alert"></button> You have some form errors. Please check below. </div>
+                                <div class="alert alert-success display-hide">
+                                    <button class="close" data-close="alert"></button> Your form validation is successful! </div>
+                                <div class="tab-pane active" id="tab1">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <button type="button" class="btn btn-sm btn-outline blue-sharp" (click)="download()">download </button>
+                                            <br>
+                                            <!-- <app-simple-tiny [elementId]="'my-editor-id'" (onEditorKeyup)="keyupHandlerFunction($event)" [content]="entity.Description">
+                                            </app-simple-tiny> -->
+                                        </div>
+
+                                    </div>
+                                    <hr>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="submit" class="btn green">Add Contract</button>
+                                    <a type="button" [routerLink]="['../']" class="btn grey">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- END FORM-->
+            </div>
+        </div>
+    </div>
+</div>

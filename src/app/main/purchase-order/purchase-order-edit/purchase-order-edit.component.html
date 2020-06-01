@@ -1,0 +1,135 @@
+<div class="page-bar">
+
+    <div class="pull-left">
+        <h1 class="page-title">
+            <i></i> Manage Purchase Orders
+            <small>Edit Purchase Order</small>
+        </h1>
+    </div>
+    <div class="pull-right">
+        <h4>
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a routerLink="/main/dashboard/index">Home</a>
+                </li>
+                <li>
+                    <a routerLink="/main/purchase-order/index">Manage Purchase Orders</a>
+                </li>
+                <li>
+                    <span>Edit Purchase Order</span>
+                </li>
+            </ul>
+        </h4>
+    </div>
+
+</div>
+<!-- END PAGE BAR -->
+<!-- <pre>{{entity|json}}</pre>
+<pre>{{prDetail|json}}</pre> -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered" id="form_wizard_1">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class=" fa fa-user-plus font-red"></i>
+                    <span class="caption-subject font-red sbold uppercase">Edit Purchase Order:
+                              <span class="font-purple-intense"> </span>
+                    </span>
+                </div>
+
+            </div>
+            <div class="portlet-body form1">
+                <!-- BEGIN FORM-->
+                <form id="form_sample_2" #editPoForm="ngForm" (ngSubmit)="saveChange(editPoForm)" *ngIf="entity" novalidate>
+                    <div class="form-wizard">
+                        <div class="form-body">
+
+                            <div class="tab-content">
+                                <div class="alert alert-danger display-hide">
+                                    <button class="close" data-close="alert"></button> You have some form errors. Please check below. </div>
+                                <div class="alert alert-success display-hide">
+                                    <button class="close" data-close="alert"></button> Your form validation is successful! </div>
+                                <div class="tab-pane active" id="tab1">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <angular2-multiselect [ngModelOptions]="{standalone:true}" [data]="allPurchaseRequisition" [(ngModel)]="selectedPurchaseRequisition" [settings]="dropdownSettingsPR" (onSelect)="onItemSelectPR($event)" (onDeSelect)="OnItemDeSelectPR($event)"></angular2-multiselect>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div *ngFor="let x of selectedPurchaseRequisition; let i = index">
+                                                <angular2-multiselect [ngModelOptions]="{standalone:true}" [data]="allSupplierOfQuotation" [(ngModel)]="selectedSupplierOfQuotation" [settings]="dropdownSettingsSOQ" (onSelect)="onItemSelectSOQ($event)" (onDeSelect)="OnItemDeSelectSOQ($event)"></angular2-multiselect>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div *ngIf="prDetail.length !== 0">
+
+
+                                        <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th> Product Code </th>
+                                                    <th style="width:10%"> Quantity </th>
+                                                    <th style="width:9%"> Unit </th>
+                                                    <th style="width:15%"> Delivery Date </th>
+                                                    <th style="width:30%"> Delivery Address </th>
+                                                    <th style="width:15%" *ngIf="quotationItems.length > 0"> Price </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="odd gradeX" *ngFor="let a of prDetail; let in = index">
+
+
+                                                    <td>{{in+1}}</td>
+                                                    <td #productCode>
+                                                        {{a.ProductCode}}
+                                                    </td>
+                                                    <td>
+                                                        {{a.Quantity}}
+                                                    </td>
+                                                    <td>
+                                                        {{a.Unit}}
+                                                    </td>
+                                                    <td>
+                                                        {{a.DeliveryDate | date: 'dd/MM/yyyy'}}
+                                                    </td>
+                                                    <td>
+                                                        {{a.DeliveryAddress}}
+                                                    </td>
+
+                                                    <td *ngIf="quotationItems.length > 0">
+                                                        {{a.AmountPerItem | number:'1.0-2'}} {{a.Currency}}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <hr>
+                                        <div class="row totalamount" *ngIf="totalAmount > 0">
+                                            <div class="col-md-3 pull-right total-data font-red-mint bold">
+                                                {{totalAmount | number:'1.0-2'}} {{quotation.Currency}}
+                                            </div>
+                                            <div class="col-md-1 pull-right total-head font-red-mint bold">
+                                                Total:
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="submit" [disabled]="quotationItems.length === 0" class="btn green">Edit Purchase Order</button>
+                                    <a type="button" [routerLink]="['../']" class="btn grey">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- END FORM-->
+            </div>
+        </div>
+    </div>
+</div>

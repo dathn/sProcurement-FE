@@ -1,0 +1,109 @@
+.pocode {
+    font-size: 30px;
+}
+
+.postatus {
+    padding-left: 15px;
+    font-size: 20px;
+}
+
+.purchase-order-detail-thead-description {
+    width: 25%;
+    border: none;
+    height: 10%;
+    max-height: 10px !important;
+}
+
+.purchase-order-detail-td-datalist-description {
+    height: 10px;
+    border: none !important;
+}
+
+.detail {
+    border: 1px solid #a6b0b9;
+}
+
+.purchase-order-detail-total-thead-description {
+    width: 10%;
+    border: none;
+    height: 10%;
+    max-height: 10px !important;
+}
+
+.purchase-order-detail-total-td-datalist-description {
+    height: 10px;
+    border: none !important;
+}
+
+.total {
+    text-align: right;
+}
+
+.totalamount {
+    text-align: right !important;
+    font-size: 20px;
+}
+
+.total-data {
+    padding-right: 10px;
+}
+
+.total-head {
+    padding-right: 35px;
+}
+
+.background {
+    background-color: #dedede;
+}
+
+.po-product-detail-td-datalist-description {
+    height: 10px;
+}
+
+.po-product-detail-thead-description {
+    width: 15%;
+    background-color: none;
+    height: 10%;
+    max-height: 10px !important;
+}
+
+.product-detail-thead-description {
+    width: 15%;
+    background-color: none;
+    border: none;
+    height: 10%;
+    max-height: 10px !important;
+}
+
+.product-detail-td-datalist-description {
+    height: 10px;
+    border: none !important;
+}
+
+.btn-appr-deny {
+    text-align: center;
+    height: 50px;
+}
+
+.contract-detail-thead-description {
+    width: 25%;
+    border: none;
+    height: 10%;
+    max-height: 10px !important;
+}
+
+.contract-detail-td-datalist-description {
+    height: 10px;
+    border: none !important;
+}
+
+.hopdong {
+    padding-left: 30px;
+    padding-bottom: 30px;
+    padding-right: 30px;
+    padding-top: 30px;
+}
+
+.ctcode {
+    font-size: 30px;
+}

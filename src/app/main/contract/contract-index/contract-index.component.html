@@ -1,0 +1,139 @@
+<!-- BEGIN PAGE BAR -->
+<div class="page-bar">
+
+    <div class="pull-left">
+        <h1 class="page-title">
+            <i></i> Manage Contracts
+            <small>View All Contracts</small>
+        </h1>
+    </div>
+    <div class="pull-right">
+        <h4>
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a routerLink="/main/dashboard/index">Home</a>
+                </li>
+                <li>
+                    <span>Manage Contracts</span>
+                </li>
+            </ul>
+        </h4>
+    </div>
+
+</div>
+<!-- END PAGE BAR -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-xs-3  pull-left">
+                            <div class="search">
+                                <span class="fa fa-search"></span>
+                                <input type="text" class="form-control" name="keyword" (keyup.enter)="loadData()" [(ngModel)]="keyword" placeholder="Search here ...">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 ">
+                    <div class="pull-right">
+                        <div class="btn-group ">
+                            <a type="button" [routerLink]="['../add']" id="sample_editable_1_new" class="btn sbold green-jungle">
+                          Add New
+                          <i class="fa fa-plus"></i>
+                        </a>
+                        </div>
+                        <div class="btn-group" *ngIf="_authenService.checkAccess('showDeletedFilesContract')">
+                            <a type="button" routerLink="/main/contract/restore" id="sample_editable_1_new" class="btn grey">
+        Show Deleted Files
+        <i class="fa fa-refresh"></i>
+      </a>
+                        </div>
+                        <!-- <div class="btn-group ">
+                            <button type="button" class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown">Tools
+                        <i class="fa fa-angle-down"></i>
+                      </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="javascript:;">
+                                        <i class="fa fa-print"></i> Print </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">
+                                        <i class="fa fa-file-pdf-o"></i> Save as PDF </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">
+                                        <i class="fa fa-file-excel-o"></i> Export to Excel </a>
+                                </li>
+                            </ul>
+
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="portlet-body">
+
+                <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                    <thead>
+                        <tr>
+
+                            <th style="width:15%"> Code </th>
+                            <th> Supplier Name </th>
+                            <th> Date Created </th>
+                            <th> From Date </th>
+                            <th> To Date </th>
+                            <th> Status </th>
+                            <th *ngIf="roles == 'Procurement Staff'"> Action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="odd gradeX" *ngFor="let contract of contracts; let i = index">
+
+                            <td>
+                                <a [routerLink]="['../detail',contract.ID]"> {{contract.Code}}</a>
+                            </td>
+                            <td>
+                                {{contract.Supplier.Name}}
+                            </td>
+                            <td>
+                                {{contract.DateCreated | date: 'dd/MM/yyyy'}}
+                            </td>
+                            <td>
+                                {{contract.FromDate | date: 'dd/MM/yyyy'}}
+                            </td>
+                            <td>
+                                {{contract.ToDate | date: 'dd/MM/yyyy'}}
+                            </td>
+                            <td>
+                                <span [ngClass]="setStatus()" *ngIf="showStatus(contract.Status)"><b>{{_status}}</b></span>
+                            </td>
+                            <td *ngIf="roles == 'Procurement Staff'">
+                                <span *ngIf="contract.IsEdit == true">
+                                <a [routerLink]="['../edit', contract.ID]" matTooltip="Edit" matTooltipPosition='above'>
+                                    <i class="icon-pencil btn blue btn-outline"></i>
+                                </a>
+                            </span>
+                                <span *ngIf="contract.IsDelete==true">
+                                <a (click)="deleteContract(contract.ID, contract.Code)">
+                                    <i class="icon-trash btn red btn-outline" matTooltip="Delete" matTooltipPosition='above'></i>
+                                </a>
+                            </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-md-12">
+                        <pagination [boundaryLinks]="true" [totalItems]="totalRows" [itemsPerPage]="pageSize" (pageChanged)="pageChanged($event)" [(ngModel)]="pageIndex" class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+</div>

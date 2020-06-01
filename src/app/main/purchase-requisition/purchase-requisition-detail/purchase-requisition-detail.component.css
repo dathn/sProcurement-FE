@@ -1,0 +1,77 @@
+.purchase-requisition-detail-thead-description {
+    width: 25%;
+    border: none;
+    height: 10%;
+    max-height: 10px !important;
+}
+
+.purchase-requisition-detail-td-datalist-description {
+    height: 10px;
+    border: none !important;
+}
+
+.detail {
+    border: 1px solid #e7ecf1;
+}
+
+.product-detail-thead-description {
+    width: 15%;
+    background-color: none;
+    border: none;
+    height: 10%;
+    max-height: 10px !important;
+}
+
+.pr-product-detail-thead-description {
+    width: 15%;
+    background-color: none;
+    height: 10%;
+    max-height: 10px !important;
+}
+
+.pr-product-detail-td-datalist-description {
+    height: 10px;
+}
+
+.product-detail-td-datalist-description {
+    height: 10px;
+    border: none !important;
+}
+
+.supplier-detail-thead-description {
+    width: 20%;
+    background-color: none;
+    height: 10%;
+    max-height: 10px !important;
+}
+
+.supplier-detail-td-datalist-description {
+    padding-left: 5%;
+    height: 10px;
+}
+
+.prcode {
+    /* color: #5cb85c; */
+    font-size: 30px;
+}
+
+.prstatus {
+    padding-left: 15px;
+    font-size: 20px;
+}
+
+.btn-appr-deny {
+    text-align: center;
+    height: 50px;
+}
+
+.deny {
+    width: 125px;
+}
+
+.pr-detail-product-detail-delivery {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 20em;
+}

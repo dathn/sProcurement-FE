@@ -1,0 +1,38 @@
+body {
+    margin: 30px;
+}
+
+.search {
+    position: relative;
+    color: #aaa;
+    font-size: 16px;
+}
+
+.search input {
+    margin-right: 30px !important;
+    width: 180px;
+    height: 32px;
+    background: #fcfcfc;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    box-shadow: 0 0 3px #ccc, 0 10px 15px #ebebeb inset;
+}
+
+.search input {
+    text-indent: 32px;
+}
+
+.search .fa-search {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.matTooltip {
+    color: #fff;
+    border-radius: 2px;
+    margin: 14px;
+    max-width: 250px;
+    padding-left: 8px;
+    padding-right: 8px;
+}

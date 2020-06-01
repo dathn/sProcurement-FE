@@ -1,0 +1,302 @@
+<div class="page-bar">
+
+    <div class="pull-left">
+        <h1 class="page-title">
+            <i></i> Manage Purchase Requisitions
+            <small>Edit Purchase Requisition</small>
+        </h1>
+    </div>
+    <div class="pull-right">
+        <h4>
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a routerLink="/main/dashboard/index">Home</a>
+                </li>
+                <li>
+                    <a [routerLink]="['../']">Manage Purchase Requisitions</a>
+                </li>
+                <li>
+                    <span>Edit Purchase Requisition</span>
+                </li>
+            </ul>
+        </h4>
+    </div>
+
+</div>
+<!-- END PAGE BAR -->
+<!-- <pre>{{entity|json}}</pre> -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered" id="form_wizard_1">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class=" fa fa-user-plus font-red"></i>
+                    <span class="caption-subject font-red sbold uppercase">Edit Purchase Requisition:
+                <span class="font-purple-intense">{{entity.Name}} </span>
+                    </span>
+                </div>
+
+            </div>
+            <div class="portlet-body form1">
+                <!-- BEGIN FORM-->
+                <form id="form_sample_2" [formGroup]="mainForm" novalidate (ngSubmit)="saveChange(mainForm)" *ngIf="entity">
+                    <div class="form-wizard">
+                        <div class="form-body">
+                            <!-- {{entity | json}} -->
+                            <div class="tab-content">
+                                <!-- <div class="alert alert-danger display-hide">
+                                    <button class="close" data-close="alert"></button> You have some form errors. Please check below. </div>
+                                <div class="alert alert-success display-hide">
+                                    <button class="close" data-close="alert"></button> Your form validation is successful! </div> -->
+                                <div>
+                                    <input type="hidden" [(ngModel)]="entity.ID" formControlName="prID" name="id" />
+                                    <tabset #staticTabs>
+                                        <tab heading="Information">
+                                            <div class="col-md-6">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="form_control_1" style="color:#888">Request Code
+                                  </label>
+                                                            <br>
+                                                            <label>{{entity.Code}}</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="form_control_1" style="color:#888">Creation Date
+                                  </label>
+                                                            <br>
+                                                            <label for="">{{entity.DateCreated | date : 'dd/MM/yyyy'}}</label>
+
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <br>
+                                                <div class="form-group form-md-line-input ">
+                                                    <input type="text" class="form-control" [(ngModel)]="entity.Name" formControlName="prName" required minlength="5" name="purchaseRequisitionName">
+                                                    <div class="form-control-focus"> </div>
+                                                    <label for="form_control_1" class="control-label">Request Name
+                                <span class="required">*</span>
+                              </label>
+                                                    <span class="help-block">Please input Request Name...</span>
+                                                    <!-- <small [hidden]="mainForm.controls.prName.valid || (mainForm.controls.prName.pristine && !submitted)" class="label label-danger">
+                                                            Request Name required
+                                                          </small> -->
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group form-md-line-input ">
+                                                    <textarea rows="6" cols="50" class="form-control" [(ngModel)]="entity.ReasonForRequest" formControlName="prRequest" name="purchaseRequisitionReasonRequest"></textarea>
+                                                    <span class="help-block">Please input Reason for Request...</span>
+                                                    <label for="form_control_1">Reason for Request
+
+                              </label>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="form_control_1" style="color:#888">Description</label>
+                                                        <br>
+                                                        <!-- <app-simple-tiny [elementId]="'my-editor-id'" [content]="entity.Description">
+                                                        </app-simple-tiny> -->
+                                                        <textarea rows="6" cols="100" class="form-control" [(ngModel)]="entity.Description" formControlName="prDescription" name="purchaseRequisitionDescription"></textarea>
+                                                        <input disabled type="hidden" class="form-control">
+
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group form-md-line-input ">
+                                                        <textarea rows="6" cols="50" class="form-control" [(ngModel)]="entity.NoteForApprover" formControlName="prNoteForApprover" name="notesForApprover"></textarea>
+                                                        <span class="help-block">Please input Notes for Approver...</span>
+                                                        <label for="form_control_1">
+                                                          Notes for Approver
+</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group form-md-line-input ">
+                                                        <textarea rows="6" cols="50" class="form-control" [(ngModel)]="entity.NoteForSupplier" formControlName="prNoteForSupplier" name="notesForSupplier"></textarea>
+                                                        <span class="help-block">Please input Notes for Supplier...</span>
+                                                        <label for="form_control_1">Notes for Supplier
+
+</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </tab>
+                                        <tab heading="Product">
+                                            <a type="button" (click)="addProduct()" class="btn btn-outline blue-sharp btn-circle">
+                                                <i class="fa fa-plus"></i>
+                                            </a>
+                                            <div [formGroup]="productForm">
+                                                <div *ngFor="let x of productSelected; let in = index">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <div class="form-group form-md-line-input ">
+                                                                <input [(ngModel)]="x.ProductName" [typeahead]="copyProducts" (typeaheadLoading)="changeTypeaheadLoading($event)" (typeaheadNoResults)="changeTypeaheadNoResults($event)" (typeaheadOnSelect)="typeaheadOnSelect($event)" typeaheadOptionsLimit="7" typeaheadOptionField="Name"
+                                                                    formControlName="productName" required minlength="3" class="form-control">
+                                                                <div *ngIf="typeaheadLoading===true">
+                                                                    <i class="glyphicon glyphicon-refresh ng-hide" style=""></i>
+                                                                </div>
+                                                                <div *ngIf="typeaheadNoResults===true" class="" style="">
+                                                                    <i class="glyphicon glyphicon-remove"></i> No Results Found
+                                                                </div>
+                                                                <span class="help-block">Please input Product...</span>
+                                                                <label for="form_control_1">Product
+                                    <span class="required">*</span>
+                                  </label>
+                                                            </div>
+                                                        </div>
+
+
+
+
+                                                        <div class="col-md-2">
+                                                            <div class="form-group form-md-line-input ">
+                                                                <input type="number" [(ngModel)]="x.Quantity" formControlName="productQuantity" name="productQuantity_{{i}}" class="form-control" required min="1" max="9999" pattern="^[0-9]*$">
+                                                                <div class="form-control-focus"> </div>
+                                                                <label for="form_control_1" class="control-label">Quantity
+                                    <span class="required">*</span>
+                                  </label>
+                                                                <div>
+                                                                    <!-- <small [hidden]="productQuantity.valid || (productQuantity.pristine && !productForm.submitted)" class="text-danger">Quantity</small> -->
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-1">
+
+                                                            <div class="form-group form-md-line-input ">
+                                                                <input readonly type="text" class="form-control" formControlName="productUnit" [(ngModel)]="x.Unit" name="productUnit_{{i}}" required minlength="1">
+                                                                <div class="form-control-focus"> </div>
+                                                                <label for="form_control_1" class="control-label">Unit
+
+                                  </label>
+                                                                <span class="help-block">Please input Unit...</span>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group form-md-line-input ">
+                                                                <input class="form-control" placeholder="Datepicker" formControlName="productDate" [(ngModel)]="x.DeliveryDate" name="productDate_{{i}}" bsDatepicker [minDate]="minDate" #dp="bsDatepicker" [bsConfig]="bsConfig" required minlength="2">
+                                                                <div class="form-control-focus"> </div>
+                                                                <label for="form_control_1" class="control-label">
+                                    Delivery Date
+                                    <span class="required">*</span>
+                                  </label>
+                                                                <span class="help-block">Please input Delivery Date...</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <!-- <angular2-multiselect [ngModelOptions]="{standalone:true}" [data]="allSuppliers" [(ngModel)]="productSuppliers" [settings]="dropdownSettingsSupplier"></angular2-multiselect> -->
+                                                            <div class="form-group form-md-line-input ">
+                                                                <select class="form-control" [(ngModel)]="x.DeliveryAddress" formControlName="productAddress" name="productAddress_{{i}}" required>
+                                    <option *ngFor="let address of allDeliveryAddress" [value]="address.Name">{{address.Name}}</option>
+                                  </select>
+                                                                <label for="form_control_1">
+                                    Delivery Address
+                                    <span class="required">*</span>
+                                  </label>
+                                                                <span class="help-block">Please input Delivery Address...</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-1">
+                                                            <h2></h2>
+                                                            <button type="button" class="btn green-jungle btn-circle" [disabled]="!productForm.valid" (click)="saveProduct(x.ProductID)">
+                              <i class="fa fa-save"></i>
+                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div *ngIf="productSelectedFull.length > 0">
+                                                <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                                                    <thead>
+                                                        <tr>
+
+                                                            <th> Product Name </th>
+                                                            <th style="width:10%"> Quantity </th>
+                                                            <th style="width:9%"> Unit </th>
+                                                            <th style="width:15%"> Delivery Date </th>
+                                                            <th style="width:30%"> Delivery Address </th>
+                                                            <th style="width:15%"> Action </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                        <tr class="odd gradeX" *ngFor="let x of productSelectedFull; let in = index">
+
+                                                            <td>
+                                                                {{x.ProductName}}
+                                                            </td>
+                                                            <td>
+                                                                {{x.Quantity}}
+                                                            </td>
+                                                            <td>
+                                                                {{x.Product.Unit}}
+                                                            </td>
+                                                            <td>
+                                                                {{x.DeliveryDate | date: 'dd/MM/yyyy'}}
+                                                            </td>
+                                                            <td>
+                                                                <a>{{x.DeliveryAddress}}</a>
+                                                            </td>
+                                                            <td>
+                                                                <div class="btn-group" role="menu">
+                                                                    <a type="button" class="btn btn-info btn-circle" (click)="editProduct(x.ProductID)">
+                                                                        <i class="fa fa-pencil"></i>
+                                                                    </a>
+                                                                    <a type="button" class="btn btn-danger btn-circle" (click)="removeProduct(x.ProductID)" style="margin-left:10px">
+                                                                        <i class="fa fa-minus"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </tab>
+
+                                    </tabset>
+                                </div>
+
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="button" (click)="saveDraft(mainForm)" class="btn btn-primary btn-sm" [disabled]="!mainForm.valid">Save Request</button>
+                                    <button type="submit" class="btn btn-outline green-jungle btn-sm" [disabled]="!mainForm.valid || productSelectedFull.length == 0">Submit Request</button>
+                                    <a type="button" [routerLink]="['../../']" class="btn grey btn-sm">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <!-- <pre>{{productSelectedFull | json}}</pre> -->
+                        <!-- <pre>{{entity | json}}</pre> -->
+                    </div>
+                </form>
+                <!-- END FORM-->
+            </div>
+        </div>
+    </div>
+</div>

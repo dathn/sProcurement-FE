@@ -1,0 +1,195 @@
+<!-- <table class="table" *ngIf="product">
+    {{product.Name}} {{product.Category.Name}}
+    <tr *ngFor="let properties of product.PropertiesDetails">
+        {{properties.Unit}}
+    </tr>
+    <tr *ngFor="let supplier of product.Suppliers">
+        {{supplier.Name}}
+    </tr>
+</table> -->
+
+
+<!-- BEGIN PAGE BAR -->
+<div class="page-bar">
+
+    <div class="pull-left">
+        <h1 class="page-title">
+            <i></i> Manage Products
+            <small>View {{product.Name}}</small>
+        </h1>
+    </div>
+    <div class="pull-right">
+        <h4>
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a routerLink="/main/dashboard/index">Home</a>
+                </li>
+                <li>
+                    <span>Manage Products</span>
+                </li>
+            </ul>
+        </h4>
+    </div>
+
+</div>
+<!-- END PAGE BAR -->
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="col-md-6">
+
+                </div>
+                <div class="col-md-6 ">
+                    <div class="pull-right">
+
+                        <div class="btn-group ">
+                            <button type="button" class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown">Tools
+                                                                                    <i class="fa fa-angle-down"></i>
+                                                                                </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="javascript:;">
+                                        <i class="fa fa-print"></i> Print </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">
+                                        <i class="fa fa-file-pdf-o"></i> Save as PDF </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">
+                                        <i class="fa fa-file-excel-o"></i> Export to Excel </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="portlet-body" *ngIf="(product | json) != ({} | json)">
+
+                <table class="table table-striped  table-hover table-checkable order-column" id="sample_1">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <!-- <div class="trick"></div> -->
+                                <!-- <img id="to" src="http://www.lamphongstore.com/image/cache/Macbook%20Pro%202017/macbook-config-rose-gold-2017-300x300.jpeg" alt=""> -->
+                                <img [src]="product.Image" alt="">
+                                <!-- <div class="row">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-6">
+                                        <div class="" style="padding: 0px" id="list">
+                                            <div class="img-prodcut-detail">
+                                                <img class="ro" id="1" (mouseover)="show(1,'https://www.pickaboo.com/media/catalog/product/cache/1/thumbnail/300x300/9df78eab33525d08d6e5fb8d27136e95/a/p/apple-macbook-12inch-high-basic_1_1_1_1.jpg')" src="https://www.pickaboo.com/media/catalog/product/cache/1/thumbnail/300x300/9df78eab33525d08d6e5fb8d27136e95/a/p/apple-macbook-12inch-high-basic_1_1_1_1.jpg"
+                                                    alt="">
+                                            </div>
+                                            <div class="img-prodcut-detail">
+                                                <img class="mo" id="2" (mouseover)="show(2,'https://www.amirmughal.com/wp-content/uploads/2017/09/MacBook-Space-Gray-Mid-2017-300x300.jpg')" src="https://www.amirmughal.com/wp-content/uploads/2017/09/MacBook-Space-Gray-Mid-2017-300x300.jpg" alt="">
+                                            </div>
+                                            <div class="img-prodcut-detail">
+                                                <img class="mo" id="3" (mouseover)="show(3,'https://www.voidapplications.co.uk/wp-content/uploads/2016/11/Macbook-300x300.png')" src="https://www.voidapplications.co.uk/wp-content/uploads/2016/11/Macbook-300x300.png" alt="">
+                                            </div>
+                                            <div class="img-prodcut-detail">
+                                                <img class="mo" id="4" (mouseover)="show(4,'http://www.macstores.vn/wp-content/uploads/2017/07/Macbook-Pro-MPXY2-300x300.jpg')" src="http://www.macstores.vn/wp-content/uploads/2017/07/Macbook-Pro-MPXY2-300x300.jpg" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div> -->
+
+
+
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-9 ">
+                            <h1><strong>{{product.Name}}</strong></h1>
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <th class="product-detail-thead-description">Code</th>
+                                        <td class="product-detail-td-datalist-description">{{product.Code}}</td>
+
+
+
+                                    </tr>
+                                    <tr>
+                                        <th class="product-detail-thead-description">Category</th>
+                                        <td class="product-detail-td-datalist-description">{{product.Category.Name}}</td>
+
+                                    </tr>
+                                    <tr>
+                                        <th class="product-detail-thead-description">Unit</th>
+                                        <td class="product-detail-td-datalist-description">{{product.Unit}}</td>
+
+                                    </tr>
+                                    <tr>
+                                        <th class="product-detail-thead-description">Description</th>
+                                        <td class="product-detail-td-datalist-description">
+                                            <p>{{product.Description}}</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-12 ">
+                            <h3><b>Properties: </b></h3>
+                            <table class="table table-bordered table-hover">
+                                <tbody>
+
+
+                                    <tr *ngFor="let properties of product.PropertiesDetails">
+                                        <th class="product-detail-thead">{{properties.Property.Name}}</th>
+                                        <td class="product-detail-td-datalist">
+                                            {{properties.Value}} {{properties.Unit}}
+                                        </td>
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+
+
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3><b>Supplier : </b></h3>
+                            <table class="table table-bordered table-hover">
+                                <tbody>
+                                    <tr>
+                                        <th class="product-detail-thead">Supplier</th>
+                                        <td>
+                                            <p *ngFor="let supplier of product.Suppliers">
+                                                {{supplier.Name}}
+                                            </p>
+                                            <!-- <a [routerLink]="['/main/supplier',supplier.id]">{{supplier.id}}</a> -->
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </table>
+
+
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+</div>

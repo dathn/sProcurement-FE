@@ -1,0 +1,382 @@
+<!-- BEGIN PAGE BAR -->
+<div class="page-bar" *ngIf="(purchaseOrder | json) != '{}'">
+    <div class="pull-left">
+        <h1 class="page-title">
+            <i></i> Manage Purchase Order
+            <small>View {{purchaseOrder.Code}} </small>
+        </h1>
+    </div>
+    <div class="pull-right">
+        <h4>
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a routerLink="/main/dashboard/index">Home</a>
+                </li>
+                <li>
+                    <span>Manage Purchase Order</span>
+                </li>
+            </ul>
+        </h4>
+    </div>
+</div>
+<div class="row" *ngIf="(purchaseOrder | json) != '{}'">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light ">
+            <div class="portlet-title ">
+                <div>
+                    <label class="pocode"><b>{{purchaseOrder.Code}}</b></label>
+                    <span class="postatus" [ngClass]="setStatus()" *ngIf="showStatus(purchaseOrder.Status)">{{_status}}</span> <span *ngIf="_status == 'Approved' || _status == 'Denied'">by {{purchaseOrder.Approver}}</span>
+                    <button class="btn black btn-outline btn-sm pull-right" routerLink="/main/purchase-order"><i class="fa fa-chevron-left" aria-hidden="true"></i>Back</button>
+                    <span>
+                            <button class="btn blue btn-outline btn-sm pull-right" style="margin-right: 1.5%" [routerLink]="['/main/purchase-order/edit/', purchaseOrder.ID]" *ngIf="_status == 'Waiting' || _status == 'Draft' || _status == 'Denied'"> Edit</button>
+                          </span>
+                </div>
+            </div>
+            <div class="col-md-12 ">
+                <div class="col-md-6">
+                    <table class="table ">
+                        <tbody>
+
+                            <tr>
+                                <th class="purchase-order-detail-thead-description">Creation Date</th>
+                                <td class="purchase-order-detail-td-datalist-description">{{purchaseOrder.DateCreated | date: 'dd/MM/yyyy'}}</td>
+                            </tr>
+                            <tr>
+                                <th class="purchase-order-detail-thead-description">Requester</th>
+                                <td class="purchase-order-detail-td-datalist-description">{{purchaseOrder.Requester}}</td>
+                            </tr>
+                            <tr>
+                                <th class="purchase-order-detail-thead-description">Reason</th>
+                                <td class="purchase-order-detail-td-datalist-description">{{purchaseOrder.Reason}}</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th class="purchase-order-detail-thead-description"><b>Supplier</b></th>
+                                <td class="purchase-order-detail-td-datalist-description">
+                                    <a data-toggle="modal" data-target="#myModal_supplier"><b>{{purchaseOrder.Supplier.Name}}</b></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="purchase-order-detail-thead-description">Contract</th>
+                                <td class="purchase-order-detail-td-datalist-description">
+                                    <label *ngIf="purchaseOrder.ContractID==null"><b>No contract</b></label>
+                                    <a *ngIf="purchaseOrder.ContractID!=null" (click)="getContract(purchaseOrder.ContractID)"><b>{{purchaseOrder.ContractCode}}</b></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-12 detail ">
+                <div class="col-md-6" *ngIf="(purchaseOrder | json) != '{}'">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th class="purchase-order-detail-thead-description">Requisition Code</th>
+                                <td class="purchase-order-detail-td-datalist-description">{{purchaseOrder.PurchaseRequisition.Code}}</td>
+                            </tr>
+                            <tr>
+                                <th class="purchase-order-detail-thead-description">Requisition Name</th>
+                                <td class="purchase-order-detail-td-datalist-description">{{purchaseOrder.PurchaseRequisition.Name}}</td>
+                            </tr>
+                            <tr>
+                                <th class="purchase-order-detail-thead-description">Requisition Creation Date</th>
+                                <td class="purchase-order-detail-td-datalist-description">{{purchaseOrder.PurchaseRequisition.DateCreated | date: 'dd/MM/yyyy'}}</td>
+                            </tr>
+                            <tr>
+                                <th class="purchase-order-detail-thead-description">Requisition Requester</th>
+                                <td class="purchase-order-detail-td-datalist-description">{{purchaseOrder.PurchaseRequisition.User.LastName}} {{purchaseOrder.PurchaseRequisition.User.FirstName}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <table class="table ">
+                        <tbody>
+                            <tr>
+                                <th class="purchase-order-detail-thead-description">Budget Name</th>
+                                <td class="purchase-order-detail-td-datalist-description">{{purchaseOrder.Budget?.Name}}</td>
+                            </tr>
+                            <tr>
+                                <th class="purchase-order-detail-thead-description">Budget Approver</th>
+                                <td class="purchase-order-detail-td-datalist-description">{{purchaseOrder.BudgetApprover}}</td>
+                            </tr>
+                            <tr>
+                                <th class="purchase-order-detail-thead-description">Budget status</th>
+                                <td class="purchase-order-detail-td-datalist-description" [ngClass]="setStatusBudget()" *ngIf="showStatusBudget(purchaseOrder.StatusBudget)">{{_statusBudget}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                    <thead>
+                        <tr>
+                            <th style="width: 2%">#</th>
+                            <th style="width: 10%">Product Code</th>
+                            <th style="width: 20%"> Name </th>
+                            <th style="width: 8%"> Categories </th>
+                            <th style="width: 5%"> Quantity </th>
+                            <th style="width: 7%"> Delivery Date </th>
+                            <th style="width: 15%"> Delivery Address </th>
+                            <th style="width: 10%"> Unit Price </th>
+                            <th style="width: 10%"> Total Price </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="odd gradeX" *ngFor="let product of purchaseOrder.PurchaseOrderItems; let i = index">
+                            <td>{{i+1}}</td>
+                            <td> <a data-toggle="modal" data-target="#myModal" (click)="getProductDetail(product.ID)">{{product.Product.Code}}</a></td>
+                            <td>{{product.Product.Name}}</td>
+                            <td>{{product.Product.Category.Name}}</td>
+                            <td>{{product.Quantity }} {{product.Unit}}</td>
+                            <td>{{product.DeliveryDate | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{product.DeliveryAddress}}</td>
+                            <td>{{product.AmountPerItem | number:'1.0-2'}} {{purchaseOrder.Currency}}</td>
+                            <td>{{product.Quantity * product.AmountPerItem | number:'1.0-2'}} {{purchaseOrder.Currency}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="totalamount">
+                <label class="total-head"><b>Total Amount</b></label>
+                <span><label class="total-data" >{{purchaseOrder.TotalAmout | number:'1.0-2'}} {{purchaseOrder.Currency}}</label></span>
+            </div>
+
+            <div class="btn-appr-deny">
+                <span *ngIf="_authenService.checkAccess('deny-approve')">
+                    <button style="width:200px" class="btn btn-lg red deny" data-toggle="modal" data-target="#denyModal" (click)="setDenyItem(purchaseOrder.ID)" *ngIf="_status == 'Waiting'|| _status == 'Approved'" >Deny</button>
+                    <span>
+                        <button style="width:200px" class="btn btn-lg blue"  (click)="approvePurchaseOrder(purchaseOrder.ID, purchaseOrder.Code)"*ngIf="_status == 'Waiting' || _status == 'Denied'" >Aprrove</button>
+                    </span>
+                </span>
+                <span *ngIf="_authenService.checkAccess('pro-submit-delete-draft')">
+                    <button style="width:200px" class="btn btn-lg btn-outline green " *ngIf="_status == 'Draft'" [disabled]="purchaseOrder.PurchaseOrderItems == 0" (click)="submitDraft(purchaseOrder.ID)">Submit</button>
+                    <button style="width:200px" class="btn btn-lg  red " *ngIf="_status == 'Draft'" (click)="deleteWaiting(purchaseOrder.ID, purchaseOrder.Code)">Delete</button>
+                    <button style="width:200px" class="btn btn-lg  grey " *ngIf="_status == 'Waiting'" (click)="saveAsDraft(purchaseOrder.ID)" >Save As Draft</button>
+                  </span>
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+</div>
+<!--Modal product detail-->
+<div class="modal fade" id="myModal" role="dialog" *ngIf="(purchaseOrder | json) != '{}'">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" *ngIf="(proDetail | json) != '{}'">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <img [src]="proDetail.Image" alt="">
+                    </div>
+                    <div class="col-md-9">
+                        <h2><strong>{{proDetail.Name}}</strong></h2>
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th class="product-detail-thead-description">Code</th>
+                                    <td class="product-detail-td-datalist-description">{{proDetail.Code}}</td>
+                                </tr>
+                                <tr>
+                                    <th class="product-detail-thead-description">Category</th>
+                                    <td class="product-detail-td-datalist-description">{{proDetail.Category.Name}}</td>
+                                </tr>
+                                <tr>
+                                    <th class="product-detail-thead-description">Unit</th>
+                                    <td class="product-detail-td-datalist-description">{{proDetail.Unit}}</td>
+                                </tr>
+                                <tr>
+                                    <th class="product-detail-thead-description">Description</th>
+                                    <td class="product-detail-td-datalist-description">
+                                        {{proDetail.Description}}
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3><b>Properties: </b></h3>
+                        <table class="table table-bordered table-hover">
+                            <tbody>
+                                <tr *ngFor="let properties of proDetail.PropertiesDetails">
+                                    <th class="po-product-detail-thead-description">{{properties.Property.Name}}</th>
+                                    <td class="po-product-detail-td-datalist-description">{{properties.Value}} {{properties.Unit}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal Supplier-->
+<div class="modal fade" id="myModal_supplier" role="dialog" *ngIf="(purchaseOrder | json) != '{}'">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div>
+                    <h2 class="modal-title" style="text-align: center"><b>{{purchaseOrder.Supplier.Name}}</b></h2>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-4">
+                    <img [src]="purchaseOrder.Supplier.Logo" alt="">
+                </div>
+                <div class="col-md-8">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+
+                                <th class="supplier-detail-thead-description">Code</th>
+                                <td class="supplier-detail-td-datalist-description">{{purchaseOrder.Supplier.Code}}</td>
+                            </tr>
+                            <tr>
+                                <th class="supplier-detail-thead-description">Representative</th>
+                                <td class="supplier-detail-td-datalist-description">{{purchaseOrder.Supplier.Representative}}</td>
+                            </tr>
+                            <tr>
+                                <th class="supplier-detail-thead-description">Phone Number</th>
+                                <td class="supplier-detail-td-datalist-description">{{purchaseOrder.Supplier.PhoneNumber}}</td>
+                            </tr>
+                            <tr>
+                                <th class="supplier-detail-thead-description">Email</th>
+                                <td class="supplier-detail-td-datalist-description">{{purchaseOrder.Supplier.Email}}</td>
+                            </tr>
+                            <tr>
+                                <th class="supplier-detail-thead-description">Address</th>
+                                <td class="supplier-detail-td-datalist-description">{{purchaseOrder.Supplier.Address}}</td>
+                            </tr>
+                            <tr>
+                                <th class="supplier-detail-thead-description">Website</th>
+                                <td class="supplier-detail-td-datalist-description">{{purchaseOrder.Supplier.Website}}</td>
+                            </tr>
+                            <tr>
+                                <th class="supplier-detail-thead-description">Rate</th>
+                                <td class="supplier-detail-td-datalist-description">
+                                    <rating [(ngModel)]="purchaseOrder.Quotation.Supplier.Rate" [max]="max" [readonly]="isReadonly"></rating>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL DENY -->
+<div class="modal fade" id="denyModal" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Do you want to deny this {{purchaseOrder.Code}} ? </h4>
+            </div>
+            <div class="modal-body">
+                <p>Reason</p>
+                <textarea name="" id="" cols="30" rows="5" [(ngModel)]="ReasonForDeny" style="width: 97%"></textarea>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="denyPurchaseOrder()">Confirm</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="close-modal-deny">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MODAL Contract-->
+<div class="modal fade" id="myModal_contract" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"> </h4>
+            </div>
+            <div class="modal-body">
+
+                <!--Contract-->
+                <div class="row" *ngIf="(contract | json) != '{}'">
+                    <div class="col-md-12">
+                        <div class="portlet light">
+                            <div class="portlet-title">
+                                <div>
+                                    <label class="ctcode"><b>{{contract?.Code}}</b></label>
+                                    <span class="status" [ngClass]="setStatusContract()" *ngIf="showStatusContract(contract?.Status)">{{_statusContract}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-12 detail">
+                                <div class="col-md-6">
+                                    <table class="table ">
+                                        <tbody>
+                                            <tr>
+                                                <th class="contract-detail-thead-description">Creator</th>
+                                                <td class="contract-detail-td-datalist-description">{{contract?.User.LastName}} {{contract?.User.FirstName}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th class="contract-detail-thead-description">Creation Date</th>
+                                                <td class="contract-detail-td-datalist-description">{{contract?.DateCreated | date: 'dd/MM/yyyy'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th class="contract-detail-thead-description">From Date</th>
+                                                <td class="contract-detail-td-datalist-description">{{contract?.FromDate | date: 'dd/MM/yyyy'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th class="contract-detail-thead-description">To Date</th>
+                                                <td class="contract-detail-td-datalist-description">{{contract?.ToDate | date: 'dd/MM/yyyy'}}</td>
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <table class="table ">
+                                        <tbody>
+                                            <tr>
+                                                <th class="contract-detail-thead-description">Supplier</th>
+                                                <td class="contract-detail-td-datalist-description">{{contract?.Supplier.Name}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="detail">
+                                    <div [innerHTML]="contract?.Content" class="hopdong">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<button id="openModalButton" hidden data-toggle="modal" data-target="#myModal_contract">Open Modal</button>

@@ -1,0 +1,599 @@
+<!-- BEGIN PAGE BAR -->
+<div class="page-bar">
+
+    <div class="pull-left">
+        <h1 class="page-title">
+            <i></i> Manage Purchase Requisition
+            <small>View {{purchaseRequisition.Code}} </small>
+        </h1>
+    </div>
+    <div class="pull-right">
+        <h4>
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a routerLink="/main/dashboard/index">Home</a>
+                </li>
+                <li>
+                    <span>Manage Purchase Requisition</span>
+                </li>
+            </ul>
+        </h4>
+    </div>
+
+</div>
+<!-- <pre>{{userProcurement|json}}</pre> -->
+<!-- END PAGE BAR -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light ">
+            <div class="portlet-title">
+
+                <div>
+                    <label class="prcode"><b>{{purchaseRequisition.Code}}</b></label>
+                    <span class="prstatus" [ngClass]="setStatus()" *ngIf="showStatus(purchaseRequisition.Status)">{{_status}}</span> <span *ngIf="_status == 'Approved' || _status == 'Denied'">by {{purchaseRequisition.Approver}}</span>
+                    <button class="btn black btn-outline btn-sm pull-right" routerLink="/main/purchase-requisition" style="margin-left:10px"><i class="fa fa-chevron-left" aria-hidden="true"></i> Back</button>
+                    <span class="btn-group pull-right">
+                        <button type="button" class="btn green btn-sm btn-outline dropdown-toggle" style="margin-left:10px" data-toggle="dropdown">Tools
+            <i class="fa fa-angle-down"></i>
+          </button>
+                        <ul class="dropdown-menu">
+                            <li *ngIf="_authenService.checkAccess('sendMail-gen-import') && _status == 'Approved'">
+                                <a (click)="generateRFQ()">
+                                    Generate RFQ</a>
+                            </li>
+                            <li *ngIf="_authenService.checkAccess('sendMail-gen-import') && _status == 'Approved'">
+                                <a data-toggle="modal" data-target="#sendEmail">Send RFQ</a>
+                            </li>
+                            <li *ngIf="_authenService.checkAccess('sendMail-gen-import') && _status == 'Approved'">
+                                <a data-toggle="modal" data-target="#assign">Assign</a>
+                            </li>
+                        </ul>
+
+                      </span>
+                    <span *ngIf="_authenService.checkAccess('sendMail-gen-import') && _status == 'Approved'">
+
+                        <!-- <input type="file" #uploadQuotation name="imageProduct"> </span> -->
+                    <div class="fileinput fileinput-new pull-right" data-provides="fileinput">
+                        <span class="btn green btn-sm btn-file">
+                                <span class="fileinput-new"> Import Quotation </span>
+                        <input type="file" #quotation name="quotation">
+                        <span class="fileinput-exists"> Change </span>
+                        </span>
+                        <span class="fileinput-filename"> </span> &nbsp;
+                        <a href="javascript:;" class="close fileinput-exists" data-dismiss="fileinput"> </a>
+                        <input type="hidden" name="fileUrl">
+                        <button class="btn green btn-sm btn-file" (click)="importQuotation()">Upload RFQ</button>
+                    </div>
+                    </span>
+                    <span *ngIf="purchaseRequisition.UserRequestID == user.UserId">
+                    <button class="btn blue btn-outline btn-sm pull-right" [routerLink]="['/main/purchase-requisition/edit/', purchaseRequisition.ID]" *ngIf="_status == 'Waiting' || _status == 'Draft' || _status == 'Denied'"> Edit</button>
+                  </span>
+                </div>
+
+
+            </div>
+
+            <div class="col-md-12 ">
+
+
+
+                <div class="col-md-6">
+                    <table class="table ">
+                        <tbody>
+
+                            <tr>
+                                <th class="purchase-requisition-detail-thead-description">Name</th>
+                                <td class="purchase-requisition-detail-td-datalist-description">{{purchaseRequisition.Name}}</td>
+                            </tr>
+
+                            <tr>
+                                <th class="purchase-requisition-detail-thead-description">Creation Date</th>
+                                <td class="purchase-requisition-detail-td-datalist-description">{{purchaseRequisition.DateCreated | date: 'dd/MM/yyyy'}}</td>
+
+                            </tr>
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+
+
+
+            </div>
+            <hr class="featurette-divider">
+            <div class="col-md-12 detail">
+
+
+
+                <div class="col-md-6">
+                    <table class="table">
+                        <tbody>
+
+                            <tr>
+                                <th class="purchase-requisition-detail-thead-description">Requester</th>
+                                <td class="purchase-requisition-detail-td-datalist-description">{{purchaseRequisition.Requester}}</td>
+
+                            </tr>
+                            <tr>
+                                <th class="purchase-requisition-detail-thead-description">Requester Email</th>
+                                <td class="purchase-requisition-detail-td-datalist-description">{{purchaseRequisition.Email}}</td>
+                            </tr>
+
+
+                            <tr>
+                                <th class="purchase-requisition-detail-thead-description">Description</th>
+                                <td class="purchase-requisition-detail-td-datalist-description">
+                                    {{purchaseRequisition.Description}}
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+                <div class="col-md-6">
+                    <table class="table ">
+                        <tbody>
+
+                            <tr>
+                                <th class="purchase-requisition-detail-thead-description">Note for Supplier</th>
+                                <td class="purchase-requisition-detail-td-datalist-description">
+                                    {{purchaseRequisition.NoteForSupplier}}
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <th class="purchase-requisition-detail-thead-description">Note for Approver</th>
+                                <td class="purchase-requisition-detail-td-datalist-description">
+                                    {{purchaseRequisition.NoteForApprover}}
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <th class="purchase-requisition-detail-thead-description">Reason for Request</th>
+                                <td class="purchase-requisition-detail-td-datalist-description">
+                                    {{purchaseRequisition.ReasonForRequest}}
+                                </td>
+                            </tr>
+
+
+
+                        </tbody>
+
+                    </table>
+                </div>
+
+
+
+
+            </div>
+
+            <div class="portlet-body">
+
+                <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                    <thead>
+                        <tr>
+
+                            <th>#</th>
+                            <th style="width: 10%">Product Code</th>
+                            <th style="width: 20%"> Name </th>
+                            <th style="width: 10%"> Categories </th>
+                            <th style="width: 7%"> Quantity </th>
+                            <th style="width: 5%"> Unit </th>
+                            <th style="width: 7%"> Delivery Date </th>
+                            <th style="width: 10%">Delivery Address</th>
+                            <!-- <div > -->
+                            <th *ngIf="_authenService.checkAccess('compare')"></th>
+                            <!-- </div> -->
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="odd gradeX" *ngFor="let product of purchaseRequisition.PurchaseRequisitionItems; let i = index">
+                            <td>{{i+1}}</td>
+
+                            <td>
+                                <a data-toggle="modal" data-target="#myModal" (click)="getProductDetail(product.ID)">{{product.ProductCode}}</a>
+                                <!--Modal-->
+
+                            </td>
+                            <td>
+                                {{product.ProductName}}
+                            </td>
+                            <td> {{product.Product.Category.Name}} </td>
+                            <td>
+                                <!-- <span class="label label-sm" [ngClass]="setStatus()" *ngIf="showStatus(product.Status)"> {{status}} </span> -->
+                                {{product.Quantity}}
+                            </td>
+                            <td> {{product.Product.Unit}}</td>
+                            <td>
+                                {{product.DeliveryDate | date: 'dd/MM/yyyy'}}
+                            </td>
+                            <td>
+                                <p class="pr-detail-product-detail-delivery">{{product.DeliveryAddress}}</p>
+
+                            </td>
+                            <!-- <td>
+                                <div class="btn-group" role="menu">
+                                    <a [routerLink]="['../edit', product.ID]" matTooltip="Edit" matTooltipPosition='above'>
+                                        <i class="icon-pencil btn blue btn-outline"></i>
+                                    </a>
+
+                                    <a (click)="deleteProduct(product.ID)">
+                                        <i class="icon-trash btn red btn-outline" matTooltip="Delete" matTooltipPosition='above'></i>
+                                    </a>
+
+
+
+
+                                </div>
+                            </td> -->
+                            <!-- <div > -->
+                            <td *ngIf="_authenService.checkAccess('compare')">
+                                <button class="btn blue btn-block btn-outline btn-sm" data-toggle="modal" data-target="#myModal_compare" (click)="getProductDetail(product.ID)">
+                                Compare
+                              </button>
+                            </td>
+                            <!-- </div> -->
+                        </tr>
+
+
+
+
+                    </tbody>
+
+                </table>
+
+                <div class="btn-appr-deny">
+                    <span *ngIf="_authenService.checkAccess('deny-approve')">
+                    <button style="width:200px" class="btn btn-lg red deny" data-toggle="modal" data-target="#denyModal" (click)="setDenyItem(purchaseRequisition.ID)" *ngIf="_status == 'Waiting'|| _status == 'Approved'" [disabled]="purchaseRequisition.PurchaseOrders.length > 0">Deny</button>
+                    <span>
+                        <button style="width:200px" class="btn btn-lg blue"  (click)="approvePurchaseRequisition(purchaseRequisition.ID, purchaseRequisition.Code)"*ngIf="_status == 'Waiting' || _status == 'Denied'" >Aprrove</button>
+                    </span>
+                    </span>
+                    <span *ngIf="_authenService.checkAccess('downloadRFQ') || _status === 'Approved'">
+                        <button [disabled]="purchaseRequisition.FileNameRFQ == null" class="btn btn-sm blue-oleo pull-right" (click)="downloadRFQ()" style="margin-bottom:20px"><i class="fa fa-download"></i>Download RFQ</button>
+                  </span>
+                    <span *ngIf="_authenService.checkAccess('submit-delete-draft')">
+                    <button style="width:200px" class="btn btn-lg btn-outline green " *ngIf="_status == 'Draft'" [disabled]="purchaseRequisition.PurchaseRequisitionItems == 0" (click)="submitDraft(purchaseRequisition.ID)">Submit</button>
+                    <button style="width:200px" class="btn btn-lg  red " *ngIf="_status == 'Draft'" (click)="deleteWaiting(purchaseRequisition.ID, purchaseRequisition.Code)">Delete</button>
+                    <button style="width:200px" class="btn btn-lg  grey " *ngIf="_status == 'Waiting'" (click)="saveAsDraft(purchaseRequisition.ID)">Save As Draft</button>
+                  </span>
+                </div>
+
+
+
+            </div>
+
+        </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+</div>
+<!--Modal Product detail-->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" *ngIf="(proDetail | json) != '{}'">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <img [src]="proDetail.Image" alt="">
+                    </div>
+                    <div class="col-md-9">
+                        <h2><strong>{{proDetail.Name}}</strong></h2>
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th class="product-detail-thead-description">Code</th>
+                                    <td class="product-detail-td-datalist-description">{{proDetail.Code}}</td>
+
+
+
+                                </tr>
+                                <tr>
+                                    <th class="product-detail-thead-description">Category</th>
+                                    <td class="product-detail-td-datalist-description">{{proDetail.Category.Name}}</td>
+
+                                </tr>
+                                <tr>
+                                    <th class="product-detail-thead-description">Unit</th>
+                                    <td class="product-detail-td-datalist-description">{{proDetail.Unit}}</td>
+
+                                </tr>
+                                <tr>
+                                    <th class="product-detail-thead-description">Description</th>
+                                    <td class="product-detail-td-datalist-description">
+                                        {{proDetail.Description}}
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3><b>Properties: </b></h3>
+                        <table class="table table-bordered table-hover">
+                            <tbody>
+                                <tr *ngFor="let properties of proDetail.PropertiesDetails">
+                                    <th class="pr-product-detail-thead-description">{{properties.Property.Name}}</th>
+                                    <td class="pr-product-detail-td-datalist-description">{{properties.Value}} {{properties.Unit}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal quotation-->
+<div class="modal fade" id="myModal_compare" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" *ngIf="(proDetail | json) != '{}'">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title" style="text-align: center"><strong> {{proDetail.Code}} - {{proDetail.Name}}</strong></h3>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%"> Code </th>
+                            <th style="width: 10%">Supplier</th>
+                            <th style="width: 10%">Unit Price</th>
+                            <th style="width: 10%"> Supplier Rate </th>
+                            <th style="width: 10%"> Transaction Amount </th>
+                            <!-- <th></th> -->
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let listQuotation of quotationData.listQuotatationItem">
+
+
+
+                        <tr class="odd gradeX">
+                            <!-- <strong *ngIf="item.ProductID == product.ProductID"> -->
+                            <td>
+
+                                {{listQuotation.QuotationCode}}
+
+                            </td>
+                            <td>
+                                <!-- <a data-toggle="modal" data-target="#myModal_supplier" (click)="bbbb(quotation.SupplierID)">{{quotation.SupplierName}}</a> -->
+                                <a data-toggle="modal" data-target="#myModal_supplier" (click)="getSupplierDetail(listQuotation.SupplierID)">{{listQuotation.SupplierName}}</a>
+
+                            </td>
+                            <td>
+                                <!-- <div *ngFor="let qoItem of quoItem.QuotationItems">
+                                    <div *ngIf="quotation.ID == qoItem.QuotationID">
+                                        {{qoItem.AmountPerItem | number:'1.0-2' }} <span> {{quotation.Currency}}</span>
+                                    </div>
+                                </div> -->
+                                {{listQuotation.AmountPerItem | number:'1.0-2' }} <span>{{listQuotation.Currency}}</span>
+                            </td>
+                            <td>
+                                <rating [(ngModel)]="listQuotation.SupplierRate" [max]="max" [readonly]="isReadonly"></rating>
+                            </td>
+                            <td>
+                                {{listQuotation.TransactionAmount | number:'1.0-2'}} <span>{{listQuotation.Currency}}</span>
+                            </td>
+                            <!-- </strong> -->
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal Supplier-->
+<div class="modal fade" id="myModal_supplier" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div>
+                    <h2 class="modal-title" style="text-align: center" *ngIf="supplierData"><b>{{supplierData.Name}}</b></h2>
+                </div>
+
+            </div>
+            <div class="modal-body">
+                <div class="col-md-4" *ngIf="supplierData">
+                    <img [src]="supplierData.Logo" alt="">
+                </div>
+                <div class="col-md-8">
+
+                    <table class="table table-bordered">
+                        <tbody *ngIf="supplierData">
+                            <tr>
+
+                                <th class="supplier-detail-thead-description">Code</th>
+                                <td class="supplier-detail-td-datalist-description">{{supplierData.Code}}</td>
+
+
+                            </tr>
+                            <tr>
+                                <th class="supplier-detail-thead-description">Representative</th>
+                                <td class="supplier-detail-td-datalist-description">{{supplierData.Representative}}</td>
+
+                            </tr>
+                            <tr>
+                                <th class="supplier-detail-thead-description">Phone Number</th>
+                                <td class="supplier-detail-td-datalist-description">{{supplierData.PhoneNumber}}</td>
+
+                            </tr>
+                            <tr>
+                                <th class="supplier-detail-thead-description">Email</th>
+                                <td class="supplier-detail-td-datalist-description">{{supplierData.Email}}</td>
+
+                            </tr>
+                            <tr>
+                                <th class="supplier-detail-thead-description">Address</th>
+                                <td class="supplier-detail-td-datalist-description">{{supplierData.Address}}</td>
+                            </tr>
+                            <tr>
+                                <th class="supplier-detail-thead-description">Website</th>
+                                <td class="supplier-detail-td-datalist-description">{{supplierData.Website}}</td>
+
+                            </tr>
+
+                            <tr>
+                                <th class="supplier-detail-thead-description">Rate</th>
+                                <td class="supplier-detail-td-datalist-description">
+                                    <rating [(ngModel)]="supplierData.Rate" [max]="max" [readonly]="isReadonly"></rating>
+
+
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL DENY -->
+<div class="modal fade" id="denyModal" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Do you want to deny this {{purchaseRequisition.Code}} ? </h4>
+            </div>
+            <div class="modal-body">
+                <p>Reason</p>
+                <textarea name="" id="" cols="30" rows="5" [(ngModel)]="ReasonForDeny" style="width: 97%"></textarea>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="denyPurchaseRequisition()">Confirm</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="close-modal-deny">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL APPROVE -->
+<!-- <div class="modal fade" id="approveModal" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h4 class="modal-title">Do you want to approve this {{purchaseRequisition.Code}} ? </h4>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="approvePurchaseRequisition()">Confirm</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="close-modal-approve">Close</button>
+            </div>
+        </div>
+    </div>
+</div>-->
+
+<!-- SEND MAIL -->
+<div class="modal fade" id="sendEmail" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Send Email</h4>
+            </div>
+            <div class="modal-body">
+                <!-- BEGIN FORM-->
+                <form id="form_sample_2" #sendMailForm="ngForm" *ngIf="allSuppliers" novalidate>
+                    <div class="form-wizard">
+                        <div class="form-body">
+
+
+                            <div class="tab-pane active" id="tab1">
+                                <label>Please choose Supplier to send email</label>
+                                <angular2-multiselect [ngModelOptions]="{standalone:true}" [data]="allSuppliers" [(ngModel)]="supplierSelected" [settings]="dropdownSettingsSupplier" [required]></angular2-multiselect>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="button" class="btn green" (click)="sendEmail()">Send Email</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal" id="close-modal-sendMail">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+                <!-- END FORM-->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ASSIGN PR-->
+<div class="modal fade" id="assign" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">ASSIGN PURCHASE REQUISITION</h4>
+            </div>
+            <div class="modal-body">
+                <!-- BEGIN FORM-->
+                <form id="form_sample_2" #assignForm="ngForm" *ngIf="userProcurement" novalidate>
+                    <div class="form-wizard">
+                        <div class="form-body">
+
+
+                            <div class="tab-pane active" id="tab1">
+                                <label>Please choose Staff to Assign</label>
+                                <angular2-multiselect [ngModelOptions]="{standalone:true}" [data]="userProcurement" [(ngModel)]="userProcurementSelected" [settings]="dropdownSettingsUserProcurement" [required]></angular2-multiselect>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="button" class="btn green" (click)="assignPR()">Assign</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal" id="close-modal-assign">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+                <!-- END FORM-->
+            </div>
+        </div>
+    </div>
+</div>

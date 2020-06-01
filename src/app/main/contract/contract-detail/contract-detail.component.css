@@ -1,0 +1,31 @@
+.contract-detail-thead-description {
+    width: 25%;
+    border: none;
+    height: 10%;
+    max-height: 10px !important;
+}
+
+.contract-detail-td-datalist-description {
+    height: 10px;
+    border: none !important;
+}
+
+.detail {
+    border: 1px solid #a6b0b9;
+}
+
+.ctcode {
+    font-size: 30px;
+}
+
+.postatus {
+    padding-left: 15px;
+    font-size: 20px;
+}
+
+.hopdong {
+    padding-left: 30px;
+    padding-bottom: 30px;
+    padding-right: 30px;
+    padding-top: 30px;
+}

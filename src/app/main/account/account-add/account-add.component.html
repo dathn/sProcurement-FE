@@ -1,0 +1,206 @@
+<!-- BEGIN PAGE BAR -->
+<div class="page-bar">
+
+    <div class="pull-left">
+        <h1 class="page-title">
+            <i></i> Manage Accounts
+            <small>Add Account</small>
+        </h1>
+    </div>
+    <div class="pull-right">
+        <h4>
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a routerLink="/main/dashboard/index">Home</a>
+                </li>
+                <li>
+                    <a routerLink="/main/account/index">Manage Accounts</a>
+                </li>
+                <li>
+                    <span>Add Account</span>
+                </li>
+            </ul>
+        </h4>
+    </div>
+
+</div>
+<!-- END PAGE BAR -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN VALIDATION STATES-->
+        <div class="portlet light portlet-fit portlet-form bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class=" fa fa-user-plus font-red"></i>
+                    <span class="caption-subject font-red sbold uppercase">Add Account</span>
+                </div>
+
+            </div>
+            <div class="portlet-body">
+                <!-- BEGIN FORM-->
+                <form action="#" id="form_sample_1">
+                    <div class="form-body">
+                        <div class="alert alert-danger display-hide">
+                            <button class="close" data-close="alert"></button> You have some form errors. Please check below. </div>
+                        <div class="alert alert-success display-hide">
+                            <button class="close" data-close="alert"></button> Your form validation is successful! </div>
+                        <div class="col-md-6">
+
+                            <div class="form-group form-md-line-input">
+                                <input type="text" class="form-control" placeholder="auto generate" disabled>
+                                <span class="help-block">Please input Username...</span>
+
+                                <label for="form_control_1">Username
+                                  <span class="required">*</span>
+                              </label>
+                            </div>
+                            <!-- <div class="form-group form-md-line-input form-md-floating-label">
+                              <input type="password" class="form-control" id="password" name="password">
+                              <div class="form-control-focus"> </div>
+                              <span class="help-block">Please input Password...</span>
+                              <label for="form_control_1">Password
+                                  <span class="required">*</span>
+                              </label>
+
+                          </div>
+                          <div class="form-group form-md-line-input form-md-floating-label">
+                              <input type="password" class="form-control" name="password2">
+                              <div class="form-control-focus"> </div>
+                              <span class="help-block">Please confirm Password...</span>
+                              <label for="form_control_1">Confirm Password
+                                      <span class="required">*</span>
+                                  </label>
+
+                          </div> -->
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <input type="text" class="form-control" id="email" name="email">
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Please input Email...</span>
+                                <label for="form_control_1">Email
+                                      <span class="required">*</span>
+                                  </label>
+
+                            </div>
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <input type="text" class="form-control" name="email2">
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Please confirm Email...</span>
+                                <label for="form_control_1">Confirm Email
+                                          <span class="required">*</span>
+                                      </label>
+
+                            </div>
+                            <div class="form-group form-md-radios form-md-floating-label">
+                                <label for="form_control_1">Sex
+                                  <span class="required">*</span>
+                              </label>
+                                <div class="md-radio-inline">
+                                    <div class="md-radio">
+                                        <input type="radio" id="checkbox2_8" name="radio2" class="md-radiobtn" checked="">
+                                        <label for="checkbox2_8">
+                                          <span></span>
+                                          <span class="check"></span>
+                                          <span class="box"></span> Male </label>
+                                    </div>
+                                    <div class="md-radio">
+                                        <input type="radio" id="checkbox2_9" name="radio2" class="md-radiobtn">
+                                        <label for="checkbox2_9">
+                                          <span></span>
+                                          <span class="check"></span>
+                                          <span class="box"></span> Female </label>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="form-group form-md-line-input">
+                                <label for="form_control_1">Birthday
+                                  <span class="required">*</span>
+                              </label>
+
+                                <span class="input-group input-medium date date-picker" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode="years">
+                                  <input type="text" class="form-control" readonly required>
+                                  <span class="input-group-btn">
+                                          <button class="btn default" type="button">
+                                              <i class="fa fa-calendar"></i>
+                                          </button>
+                                      </span>
+                                </span>
+
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <input type="text" class="form-control" placeholder="" name="firstname">
+                                <div class="form-control-focus"> </div>
+                                <label for="form_control_1" class="control-label">First Name
+                                      <span class="required">*</span>
+                                  </label>
+                                <span class="help-block">Please input First Name...</span>
+
+                            </div>
+
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <input type="text" class="form-control" name="lastname">
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Please input Last Name...</span>
+                                <label for="form_control_1">Last Name
+                                  <span class="required">*</span>
+                              </label>
+
+                            </div>
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <input type="number" class="form-control" name="phonenumber">
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Please input PhoneNumber...</span>
+                                <label for="form_control_1">PhoneNumber
+                                  <span class="required">*</span>
+                              </label>
+
+                            </div>
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <select class="form-control" name="department" required>
+                                      <option value=""></option>
+                                      <option value="1">Procurement</option>
+                                      <option value="2">Accountant</option>
+                                      <option value="3">Admin</option>
+                                  </select>
+                                <label for="form_control_1">Department
+                                  <span class="required">*</span>
+                              </label>
+                                <span class="help-block">Please choose Department...</span>
+                            </div>
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <textarea type="text" class="form-control" row="3" name="adress" required></textarea>
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Please input Address...</span>
+                                <label for="form_control_1">Address
+                                              <span class="required">*</span>
+                                          </label>
+
+                            </div>
+                            <form>
+                            </form>
+                            <form action="#" class="dropzone dropzone-file-area" id="my-dropzone" style="width: 200px">
+                                <!-- <h3 class="sbold">Upload Avatar</h3> -->
+                            </form>
+
+                        </div>
+
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn green">Add Account</button>
+                                    <a type="button" routerLink="/main/account/index" class="btn grey">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- END FORM-->
+
+            </div>
+            <!-- END VALIDATION STATES-->
+        </div>
+    </div>
+</div>

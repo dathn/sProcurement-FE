@@ -1,0 +1,79 @@
+<div class="page-bar" *ngIf="(contract | json) != '{}'">
+    <div class="pull-left">
+        <h1 class="page-title">
+            <i></i> Manage Contract
+            <small>View {{contract.Code}} </small>
+        </h1>
+    </div>
+    <div class="pull-right">
+        <h4>
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a routerLink="/main/dashboard/index">Home</a>
+                </li>
+                <li>
+                    <span>Manage Contract</span>
+                </li>
+            </ul>
+        </h4>
+    </div>
+</div>
+<!--Contract-->
+<div class="row" *ngIf="(contract | json) != '{}'">
+    <div class="col-md-12">
+        <div class="portlet light">
+            <div class="portlet-title">
+                <div>
+                    <label class="ctcode"><b>{{contract.Code}}</b></label>
+                    <span class="status" [ngClass]="setStatus()" *ngIf="showStatus(contract.Status)">{{_status}}</span>
+                    <button class="btn black btn-outline btn-sm pull-right" routerLink="/main/contract"><i class="fa fa-chevron-left" aria-hidden="true"></i>Back</button>
+                    <button class="btn blue btn-outline btn-sm pull-right" style="margin-right: 1.5%" [routerLink]="['/main/contract/edit/', contract.ID]" *ngIf="_status == 'Actived'"> Edit</button>
+
+                </div>
+            </div>
+            <div class="col-md-12 detail">
+                <div class="col-md-6">
+                    <table class="table ">
+                        <tbody>
+                            <tr>
+                                <th class="contract-detail-thead-description">Creator</th>
+                                <td class="contract-detail-td-datalist-description">{{contract.User.LastName}} {{contract.User.FirstName}}</td>
+                            </tr>
+                            <tr>
+                                <th class="contract-detail-thead-description">Creation Date</th>
+                                <td class="contract-detail-td-datalist-description">{{contract.DateCreated | date: 'dd/MM/yyyy'}}</td>
+                            </tr>
+                            <tr>
+                                <th class="contract-detail-thead-description">From Date</th>
+                                <td class="contract-detail-td-datalist-description">{{contract.FromDate | date: 'dd/MM/yyyy'}}</td>
+                            </tr>
+                            <tr>
+                                <th class="contract-detail-thead-description">To Date</th>
+                                <td class="contract-detail-td-datalist-description">{{contract.ToDate | date: 'dd/MM/yyyy'}}</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <table class="table ">
+                        <tbody>
+                            <tr>
+                                <th class="contract-detail-thead-description">Supplier</th>
+                                <td class="contract-detail-td-datalist-description">{{contract.Supplier.Name}}</td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="detail">
+                    <div [innerHTML]="contract.Content" class="hopdong">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

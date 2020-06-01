@@ -1,0 +1,141 @@
+{
+    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+    "project": {
+        "name": "s-procurement-frontend"
+    },
+    "apps": [{
+        "root": "src",
+        "outDir": "dist",
+        "assets": [
+            "assets",
+            "favicon.ico"
+        ],
+        "index": "index.html",
+        "main": "main.ts",
+        "polyfills": "polyfills.ts",
+        "test": "test.ts",
+        "tsconfig": "tsconfig.app.json",
+        "testTsconfig": "tsconfig.spec.json",
+        "prefix": "app",
+        "styles": [
+            "../src/assets/plugins/font-awesome/css/font-awesome.min.css",
+            "../src/assets/js/jquery-ui/jquery-ui.css",
+            "../src/assets/plugins/simple-line-icons/simple-line-icons.min.css",
+
+            "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+            "../node_modules/codemirror/lib/codemirror.css",
+            "../node_modules/summernote/dist/summernote.css",
+            "../src/assets/plugins/bootstrap-switch/css/bootstrap-switch.min.css",
+
+            "../node_modules/alertifyjs/build/css/alertify.css",
+            "../node_modules/alertifyjs/build/css/themes/default.css",
+
+            "../src/assets/plugins/select2/css/select2.min.css",
+            "../src/assets/plugins/select2/css/select2-bootstrap.min.css",
+
+            "../src/assets/plugins/bootstrap-daterangepicker/daterangepicker.min.css",
+            "../src/assets/plugins/morris/morris.css",
+            "../src/assets/plugins/fullcalendar/fullcalendar.min.css",
+            "../src/assets/plugins/jqvmap/jqvmap/jqvmap.css",
+            "../src/assets/plugins/datatables/datatables.min.css",
+            "../src/assets/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css",
+            "../src/assets/plugins/bootstrap-fileinput/bootstrap-fileinput.css",
+
+
+            "../src/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css",
+            "../src/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css",
+
+            "../src/assets/plugins/dropzone/basic.min.css",
+
+            "../src/assets/plugins/fancybox/source/jquery.fancybox.css",
+            "../src/assets/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css",
+            "../src/assets/plugins/jquery-file-upload/css/jquery.fileupload.css",
+            "../src/assets/plugins/jquery-file-upload/css/jquery.fileupload-ui.css",
+
+
+
+            "../src/assets/css/components-md.min.css",
+            "../src/assets/css/plugins-md.min.css",
+
+            "../src/assets/css/login.min.css",
+            "../src/assets/css/layout.css",
+            "../src/assets/css/themes/blue.min.css",
+            "styles.css"
+        ],
+        "scripts": [
+            "../node_modules/jquery/dist/jquery.min.js",
+            "../node_modules/bootstrap/dist/js/bootstrap.min.js",
+            "../src/assets/js/jquery-ui/jquery-ui.js",
+            "../node_modules/bootstrap/js/tooltip.js",
+
+            "../node_modules/summernote/dist/summernote.js",
+            "vendor.ts",
+            "../src/assets/js/app.min.js",
+
+            "../src/assets/plugins/js.cookie.min.js",
+            "../src/assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js",
+            "../src/assets/plugins/jquery.blockui.min.js",
+            "../src/assets/plugins/bootstrap-switch/js/bootstrap-switch.min.js",
+            "../src/assets/js/form-wizard.min.js",
+
+            "../src/assets/plugins/jquery-validation/js/jquery.validate.min.js",
+            "../src/assets/plugins/jquery-validation/js/additional-methods.min.js",
+
+            "../src/assets/js/datatable.js",
+            "../src/assets/plugins/select2/js/select2.full.min.js",
+
+            "../src/assets/js/table-datatables-managed.js",
+            "../src/assets/plugins/bootstrap-fileinput/bootstrap-fileinput.js",
+
+            "../src/assets/js/dashboard.js",
+            "../src/assets/js/table-datatables-scroller.min.js",
+
+            "../src/assets/plugins/dropzone/dropzone.min.js",
+            "../src/assets/js/form-validation-md.min.js",
+            "../src/assets/js/components-date-time-pickers.js",
+            "../src/assets/js/form-dropzone.min.js",
+
+            "../node_modules/alertifyjs/build/alertify.js",
+
+            "../node_modules/moment/moment.js",
+            "../node_modules/signalr/jquery.signalR.js",
+
+            "../node_modules/jspdf/dist/jspdf.min.js"
+        ],
+        "environmentSource": "environments/environment.ts",
+        "environments": {
+            "dev": "environments/environment.ts",
+            "prod": "environments/environment.prod.ts"
+        }
+    }],
+    "e2e": {
+        "protractor": {
+            "config": "./protractor.conf.js"
+        }
+    },
+    "lint": [{
+            "project": "src/tsconfig.app.json",
+            "exclude": "**/node_modules/**"
+        },
+        {
+            "project": "src/tsconfig.spec.json",
+            "exclude": "**/node_modules/**"
+        },
+        {
+            "project": "e2e/tsconfig.e2e.json",
+            "exclude": "**/node_modules/**"
+        }
+    ],
+    "test": {
+        "karma": {
+            "config": "./karma.conf.js"
+        }
+    },
+    "defaults": {
+        "styleExt": "css",
+        "component": {},
+        "build": {
+            "showCircularDependencies": false
+        }
+    }
+}

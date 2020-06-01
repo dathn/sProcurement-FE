@@ -1,0 +1,214 @@
+<!-- BEGIN PAGE BAR -->
+<div class="page-bar">
+
+    <div class="pull-left">
+        <h1 class="page-title">
+            <i></i> Manage Purchase Order
+            <small>Show Deleted Files</small>
+        </h1>
+    </div>
+    <div class="pull-right">
+        <h4>
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a routerLink="/main/dashboard/index">Home</a>
+                </li>
+                <li>
+                    <span>Manage Purchase Order</span>
+                </li>
+            </ul>
+        </h4>
+    </div>
+
+</div>
+<!-- END PAGE BAR -->
+<!-- <pre>{{purchaseOrders|json}}</pre> -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-xs-3  pull-left">
+                            <div class="search">
+                                <span class="fa fa-search"></span>
+                                <input type="text" class="form-control" name="keyword" (keyup.enter)="loadData()" [(ngModel)]="keyword" placeholder="Search here ...">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portlet-body">
+                <div *ngIf="_authenService.checkAccess('done-deleted-PO')">
+                    <tabset [justified]="true" type="pills">
+                        <tab heading="DONE" (select)="clickDone()">
+
+                            <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 15%"> Code </th>
+                                        <th> Requisition Code </th>
+                                        <th> Date Created </th>
+                                        <th> Supplier Name </th>
+                                        <th> Total Amount </th>
+                                        <th> Requester </th>
+                                        <!-- <th *ngIf="roles == 'Procurement Staff'"> Action </th> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="odd gradeX" *ngFor="let purchaseOrder of purchaseOrders; let i = index">
+
+                                        <td>
+                                            <a [routerLink]="['detail',purchaseOrder.ID]"> {{purchaseOrder.Code}} </a>
+                                        </td>
+                                        <td>
+                                            {{purchaseOrder.RequisitionCode}}
+                                        </td>
+                                        <td>
+                                            {{purchaseOrder.DateCreated | date: 'dd/MM/yyyy'}}
+                                        </td>
+                                        <td>
+                                            {{purchaseOrder.SupplierName }}
+                                        </td>
+                                        <td>
+                                            {{purchaseOrder.TotalAmout | number:'1.0-2'}} {{purchaseOrder.Currency}}
+                                        </td>
+                                        <td>
+                                            {{purchaseOrder.Requester}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <pagination [boundaryLinks]="true" [totalItems]="totalRowsDone" [itemsPerPage]="pageSizeDone" (pageChanged)="pageChangedDone($event)" [(ngModel)]="pageIndexDone" class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+                                </div>
+                            </div>
+                        </tab>
+
+                        <tab heading="DELETED" (select)="clickDeleted()">
+
+                            <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 15%"> Code </th>
+                                        <th> Requisition Code </th>
+                                        <th> Date Created </th>
+                                        <th> Supplier Name </th>
+                                        <th> Total Amount </th>
+
+                                        <th> Requester </th>
+                                        <th> Action </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="odd gradeX" *ngFor="let purchaseOrder of purchaseOrders; let i = index">
+
+                                        <td>
+                                            <a [routerLink]="['../detail',purchaseOrder.ID]"> {{purchaseOrder.Code}} </a>
+                                        </td>
+                                        <td>
+                                            {{purchaseOrder.RequisitionCode}}
+                                        </td>
+                                        <td>
+                                            {{purchaseOrder.DateCreated | date: 'dd/MM/yyyy'}}
+                                        </td>
+                                        <td>
+                                            {{purchaseOrder.SupplierName }}
+                                        </td>
+                                        <td>
+                                            {{purchaseOrder.TotalAmout | number:'1.0-2'}} {{purchaseOrder.Currency}}
+                                        </td>
+
+                                        <td>
+                                            {{purchaseOrder.Requester}}
+                                        </td>
+                                        <td>
+                                            <a (click)="restorePurchaseOrder(purchaseOrder.ID, purchaseOrder.Code)">
+                                                <i class="fa fa-repeat btn green-jungle btn-outline" matTooltip="Restore" matTooltipPosition='above'></i>
+                                            </a>
+                                        </td>
+
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <pagination [boundaryLinks]="true" [totalItems]="totalRowsDelete" [itemsPerPage]="pageSizeDelete" (pageChanged)="pageChangedDelete($event)" [(ngModel)]="pageIndexDelete" class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+                                        lastText="&raquo;"></pagination>
+                                </div>
+                            </div>
+                        </tab>
+                    </tabset>
+                </div>
+
+                <!-- Only Done tab -->
+                <div *ngIf="_authenService.checkAccess('done-tab-PO')">
+
+
+                    <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                        <thead>
+                            <tr>
+                                <th style="width: 15%"> Code </th>
+                                <th> Requisition Code </th>
+                                <th> Date Created </th>
+                                <th> Supplier Name </th>
+                                <th> Total Amount </th>
+                                <th> Requester </th>
+                                <!-- <th *ngIf="roles == 'Procurement Staff'"> Action </th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="odd gradeX" *ngFor="let purchaseOrder of purchaseOrders; let i = index">
+
+                                <td>
+                                    <a [routerLink]="['detail',purchaseOrder.ID]"> {{purchaseOrder.Code}} </a>
+                                </td>
+                                <td>
+                                    {{purchaseOrder.RequisitionCode}}
+                                </td>
+                                <td>
+                                    {{purchaseOrder.DateCreated | date: 'dd/MM/yyyy'}}
+                                </td>
+                                <td>
+                                    {{purchaseOrder.SupplierName }}
+                                </td>
+                                <td>
+                                    {{purchaseOrder.TotalAmout | number:'1.0-2'}} {{purchaseOrder.Currency}}
+                                </td>
+                                <td>
+                                    {{purchaseOrder.Requester}}
+                                </td>
+                                <!-- <span *ngIf="roles == 'Procurement Staff'">
+                                                        <td>
+                                                          <div class="btn-group" role="menu">
+                                
+                                                            <a [routerLink]="['../edit', purchaseOrder.ID]" matTooltip="Edit" matTooltipPosition='above'>
+                                                              <i class="icon-pencil btn blue btn-outline"></i>
+                                                            </a>
+                                                            <a (click)="deleteWaiting(purchaseOrder.ID, purchaseOrder.Code)">
+                                                              <i class="icon-trash btn red btn-outline" matTooltip="Delete" matTooltipPosition='above' style="margin-left:10px"></i>
+                                                            </a>
+                                
+                                                          </div>
+                                                        </td>
+                                                      </span> -->
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <pagination [boundaryLinks]="true" [totalItems]="totalRowsDone" [itemsPerPage]="pageSizeDone" (pageChanged)="pageChangedDone($event)" [(ngModel)]="pageIndexDone" class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+</div>

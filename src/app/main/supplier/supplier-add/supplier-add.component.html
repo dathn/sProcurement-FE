@@ -1,0 +1,155 @@
+<div class="page-bar">
+
+    <div class="pull-left">
+        <h1 class="page-title">
+            <i></i> Manage Suppliers
+            <small>Add Supplier</small>
+        </h1>
+    </div>
+    <div class="pull-right">
+        <h4>
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a routerLink="/main/dashboard/index">Home</a>
+                </li>
+                <li>
+                    <a routerLink="/main/supplier/index">Manage Suppliers</a>
+                </li>
+                <li>
+                    <span>Add Supplier</span>
+                </li>
+            </ul>
+        </h4>
+    </div>
+
+</div>
+<!-- END PAGE BAR -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered" id="form_wizard_1">
+            <div class="portlet-title">
+                <div class="caption">
+                    <!-- <i class=" fa fa-user-plus font-red"></i>
+                    <span class="caption-subject font-red sbold uppercase">Add Supplier: -->
+                    <span class="font-purple-intense"> {{entity.Name}} </span>
+                    <!-- </span> -->
+                </div>
+
+            </div>
+            <div class="portlet-body form1">
+                <!-- BEGIN FORM-->
+                <form id="form_sample_2" #addSupplierForm="ngForm" (ngSubmit)="saveChange(addSupplierForm)" *ngIf="entity" novalidate>
+                    <div class="form-wizard">
+                        <div class="form-body">
+
+                            <div class="tab-content">
+                                <div class="alert alert-danger display-hide">
+                                    <button class="close" data-close="alert"></button> You have some form errors. Please check below. </div>
+                                <div class="alert alert-success display-hide">
+                                    <button class="close" data-close="alert"></button> Your form validation is successful! </div>
+                                <div class="tab-pane active" id="tab1">
+                                    <div class="col-md-4">
+                                        <input type="hidden" [(ngModel)]="entity.ID" name="id" />
+                                        <div class="form-group form-md-line-input">
+                                            <input type="text" class="form-control" #supplierName="ngModel" #name="ngModel" [(ngModel)]="entity.Name" required minlength="3" name="suppliername">
+                                            <div class="form-control-focus"> </div>
+                                            <label for="form_control_1" class="control-label">Supplier Name
+                                                                <span class="required">*</span>
+                                                            </label>
+                                            <span class="help-block">
+                                              Please input Supplier Name...
+                                            </span>
+                                            <!-- <span [hidden]="name.valid || (name.pristine && !addSupplierForm.submitted)" class="help-block">Name invalid</span> -->
+                                        </div>
+
+                                        <div class="form-group form-md-line-input ">
+                                            <input type="text" class="form-control" #supplierCode="ngModel" [(ngModel)]="entity.Code" required minlength="3" name="suppliercode">
+                                            <span class="help-block">Please input Supplier Code...</span>
+                                            <label for="form_control_1">Supplier Code
+                                                    <span class="required">*</span>
+                                                </label>
+
+                                        </div>
+
+                                        <div class="form-group form-md-line-input ">
+                                            <input type="text" class="form-control" #supplierRepresentative="ngModel" [(ngModel)]="entity.Representative" required minlength="3" name="supplierrepresentative">
+                                            <span class="help-block">Please input Supplier Representative...</span>
+                                            <label for="form_control_1">Supplier Representative
+                                                    <span class="required">*</span>
+                                                </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group form-md-line-input ">
+                                            <input type="tel" class="form-control" #supplierPhoneNumber="ngModel" [(ngModel)]="entity.PhoneNumber" required minlength="3" name="supplierphonenumber">
+                                            <span class="help-block">Please input Supplier Phone Number...</span>
+                                            <label for="form_control_1">Supplier Phone Number
+                                                    <span class="required">*</span>
+                                                </label>
+                                        </div>
+
+                                        <div class="form-group form-md-line-input ">
+                                            <input type="email" class="form-control" #supplierEmail="ngModel" [(ngModel)]="entity.Email" required minlength="3" name="supplieremail">
+                                            <span class="help-block">Please input Supplier Email...</span>
+                                            <label for="form_control_1">Supplier Email
+                                                    <span class="required">*</span>
+                                                </label>
+                                        </div>
+
+                                        <div class="form-group form-md-line-input ">
+                                            <input type="text" class="form-control" #supplierAddress="ngModel" [(ngModel)]="entity.Address" required minlength="3" name="supplieraddress">
+                                            <span class="help-block">Please input Supplier Address...</span>
+                                            <label for="form_control_1">Supplier Address
+                                                    <span class="required">*</span>
+                                                </label>
+                                        </div>
+
+                                        <div class="form-group form-md-line-input ">
+                                            <input type="url" class="form-control" #supplierWebsite="ngModel" [(ngModel)]="entity.Website" required minlength="3" name="supplierwebsite">
+                                            <span class="help-block">Please input Supplier Website...</span>
+                                            <label for="form_control_1">Supplier Website
+                                                    <span class="required">*</span>
+                                                </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label>Upload Logo</label>
+                                        <div class="form-group-lg">
+
+                                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                                    <img src="https://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" /> </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"> </div>
+                                                <div>
+                                                    <span class="btn default btn-file">
+                                                          <span class="fileinput-new"> Select logo </span>
+                                                    <span class="fileinput-exists"> Change </span>
+                                                    <input type="file" #logoSupplier name="logoSupplier"> </span>
+                                                    <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+                                                    <p class="help-block label label-danger"> *png, *jpg, *jpeg</p>
+                                                    <input type="hidden" [(ngModel)]="entity.Logo" name="logoUrl">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="submit" class="btn green" [disabled]="!addSupplierForm.form.valid">Add Supplier</button>
+                                    <a type="button" [routerLink]="['../']" class="btn grey">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- END FORM-->
+            </div>
+        </div>
+    </div>
+</div>
